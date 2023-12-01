@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfBriscola.Controller;
 using WpfBriscola.Models;
 
 namespace WpfBriscola
@@ -49,12 +50,13 @@ namespace WpfBriscola
         }
         private void imgCartaMazzo_Click(object sender, RoutedEventArgs e)
         {
-            imgCartaTavolo1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[(int.Parse(((Button)sender).Name.Substring(13, 1)) - 1) ].Path, UriKind.Relative));
+            Carta CartaScelta = Partita.Giocatore1.Mano[(int.Parse(((Button)sender).Name.Substring(13, 1)) - 1)];
+            imgCartaTavolo1.Source = new BitmapImage(new Uri(CartaScelta.Path, UriKind.Relative));
             (sender as Button).Content = null;
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = false;
 
-            
-            
+
+            Partita.RitornaCartaScelta(CartaScelta);                
         }
         
     }
