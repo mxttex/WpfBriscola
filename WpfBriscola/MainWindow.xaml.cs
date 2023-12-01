@@ -53,9 +53,7 @@ namespace WpfBriscola
             (sender as Button).Content = null;
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = false;
 
-            NotImplementedException nex = new NotImplementedException();
-            MessageBox.Show(nex.Message);
-            throw nex;
+            
             
         }
         
