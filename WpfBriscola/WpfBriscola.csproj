@@ -1,0 +1,103 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="carte\legend.png" />
+    <None Remove="carte\vuoto.png" />
+    <None Remove="carte\_b.1.png" />
+    <None Remove="carte\_b.10.png" />
+    <None Remove="carte\_b.2.png" />
+    <None Remove="carte\_b.3.png" />
+    <None Remove="carte\_b.4.png" />
+    <None Remove="carte\_b.5.png" />
+    <None Remove="carte\_b.6.png" />
+    <None Remove="carte\_b.7.png" />
+    <None Remove="carte\_b.8.png" />
+    <None Remove="carte\_b.9.png" />
+    <None Remove="carte\_c.1.png" />
+    <None Remove="carte\_c.10.png" />
+    <None Remove="carte\_c.2.png" />
+    <None Remove="carte\_c.3.png" />
+    <None Remove="carte\_c.4.png" />
+    <None Remove="carte\_c.5.png" />
+    <None Remove="carte\_c.6.png" />
+    <None Remove="carte\_c.7.png" />
+    <None Remove="carte\_c.8.png" />
+    <None Remove="carte\_c.9.png" />
+    <None Remove="carte\_d.1.png" />
+    <None Remove="carte\_d.10.png" />
+    <None Remove="carte\_d.2.png" />
+    <None Remove="carte\_d.3.png" />
+    <None Remove="carte\_d.4.png" />
+    <None Remove="carte\_d.5.png" />
+    <None Remove="carte\_d.6.png" />
+    <None Remove="carte\_d.7.png" />
+    <None Remove="carte\_d.8.png" />
+    <None Remove="carte\_d.9.png" />
+    <None Remove="carte\_s.1.png" />
+    <None Remove="carte\_s.10.png" />
+    <None Remove="carte\_s.2.png" />
+    <None Remove="carte\_s.3.png" />
+    <None Remove="carte\_s.4.png" />
+    <None Remove="carte\_s.5.png" />
+    <None Remove="carte\_s.6.png" />
+    <None Remove="carte\_s.7.png" />
+    <None Remove="carte\_s.8.png" />
+    <None Remove="carte\_s.9.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="carte\legend.png" />
+    <Resource Include="carte\vuoto.png" />
+    <Resource Include="carte\_b.1.png" />
+    <Resource Include="carte\_b.10.png" />
+    <Resource Include="carte\_b.2.png" />
+    <Resource Include="carte\_b.3.png" />
+    <Resource Include="carte\_b.4.png" />
+    <Resource Include="carte\_b.5.png" />
+    <Resource Include="carte\_b.6.png" />
+    <Resource Include="carte\_b.7.png" />
+    <Resource Include="carte\_b.8.png" />
+    <Resource Include="carte\_b.9.png" />
+    <Resource Include="carte\_c.1.png" />
+    <Resource Include="carte\_c.10.png" />
+    <Resource Include="carte\_c.2.png" />
+    <Resource Include="carte\_c.3.png" />
+    <Resource Include="carte\_c.4.png" />
+    <Resource Include="carte\_c.5.png" />
+    <Resource Include="carte\_c.6.png" />
+    <Resource Include="carte\_c.7.png" />
+    <Resource Include="carte\_c.8.png" />
+    <Resource Include="carte\_c.9.png" />
+    <Resource Include="carte\_d.1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="carte\_d.10.png" />
+    <Resource Include="carte\_d.2.png" />
+    <Resource Include="carte\_d.3.png" />
+    <Resource Include="carte\_d.4.png" />
+    <Resource Include="carte\_d.5.png" />
+    <Resource Include="carte\_d.6.png" />
+    <Resource Include="carte\_d.7.png" />
+    <Resource Include="carte\_d.8.png" />
+    <Resource Include="carte\_d.9.png" />
+    <Resource Include="carte\_s.1.png" />
+    <Resource Include="carte\_s.10.png" />
+    <Resource Include="carte\_s.2.png" />
+    <Resource Include="carte\_s.3.png" />
+    <Resource Include="carte\_s.4.png" />
+    <Resource Include="carte\_s.5.png" />
+    <Resource Include="carte\_s.6.png" />
+    <Resource Include="carte\_s.7.png" />
+    <Resource Include="carte\_s.8.png" />
+    <Resource Include="carte\_s.9.png" />
+  </ItemGroup>
+
+</Project>
