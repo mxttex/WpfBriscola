@@ -10,7 +10,7 @@ namespace WpfBriscola.Models
     {
         internal Models.Mazzo Mazzo { get; set; }
         internal Giocatore Giocatore1 { get; set; }
-        internal Giocatore Giocatore2 { get; set; }
+        internal AIGiocatore Giocatore2 { get; set; }
         internal string SemeBriscola { get; set; }
         internal Carta BriscolaFinale { get; set; }
         internal List<Carta> CarteGiocate { get; set; }
@@ -38,22 +38,7 @@ namespace WpfBriscola.Models
         {
             bool giochiamo;
             Random rd = new Random();
-            do
-            {
-                while (Giocatore1.Mano.Count > 0)
-
-                    if (rd.Next(0, 2) == 1)
-                    {
-                        //await 
-
-
-
-
-
-                    }
-                giochiamo = true;
-            }
-            while (giochiamo);
+           
         }
 
         //public Carta SceltaCartaUtente(out Carta C)

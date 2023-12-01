@@ -55,7 +55,7 @@
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="+90"/>
+                    <RotateTransform Angle="90"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Image.RenderTransform>
