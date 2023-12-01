@@ -21,17 +21,17 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.ColumnSpan="3" Background="Orange" FontSize="28" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic">BRISCOLA</Label>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <Image Name="imgCartaPc1" Width="57" Height="79" Margin="10"></Image>
             <Image Name="imgCartaPc2" Width="57" Height="79" Margin="10"></Image>
             <Image Name="imgCartaPc3" Width="57" Height="79" Margin="10"></Image>
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
             <Image Name="imgCartaTavolo1" Width="57" Height="79" Margin="10"></Image>
             <Image Name="imgCartaTavolo2" Width="57" Height="79" Margin="10"></Image>
         </StackPanel>
-        
+
         <StackPanel Grid.ColumnSpan="100" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <Button Name="btnCartaMazzo1" Click="imgCartaMazzo_Click" Width="57" Height="79" Margin="10">
                 <Button.Content>
@@ -48,8 +48,18 @@
                     <Image Hyperlink.Click="imgCartaMazzo_Click" Name="imgCartaMazzo3" ></Image >
                 </Button.Content>
             </Button>
-            
+
         </StackPanel>
-        <Image Name="imgBriscola" Width="57" Height="79" Grid.Column="2" Grid.Row="2"></Image>
+        <Image Name="imgBriscola" Width="57" Height="79" Grid.Column="2" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="+90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Grid.Row="2" Grid.Column="2" Width="57" Height="79" Margin="77,21,124,22" Source="..\carte\legend.png"></Image>
     </Grid>
 </Window>
