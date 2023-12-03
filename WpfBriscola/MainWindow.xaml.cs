@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfBriscola.Controller;
+using System.Xml.Serialization;
 using WpfBriscola.Models;
 
 namespace WpfBriscola
@@ -28,12 +29,19 @@ namespace WpfBriscola
         public MainWindow()
         {
             InitializeComponent();
-            
+            Partita = new Partita("matteo", "pc");
+            ThreadStart ts = new ThreadStart(() =>
+            {
+                Partita.StartPlaying();
+
+            });
+            Thread gameThread = new Thread(ts);
+
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Partita = new Partita("matteo", "pc");
             LoadImmagini();
         }
 
@@ -55,9 +63,15 @@ namespace WpfBriscola
             (sender as Button).Content = null;
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = false;
 
+            
 
-            Partita.RitornaCartaScelta(CartaScelta);                
+            Partita.RitornaCartaScelta(CartaScelta);
         }
-        
+
+        internal void CaricaCartaPC(Carta C)
+        {
+            imgCartaTavolo2.Source = new BitmapImage(new Uri(C.Path, UriKind.Relative));
+        }
+
     }
 }

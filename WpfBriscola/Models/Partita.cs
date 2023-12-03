@@ -51,11 +51,23 @@ namespace WpfBriscola.Models
 
                 await TaskCartaScelta.Task;
                 TaskCartaScelta = new TaskCompletionSource();
+                //l'utente ha già scelto la sua carta
 
-                Dispatcher.Invoke(() =>
+                Carta CartaSceltaDalPc = Giocatore2.Mossa(CartaScelta);
+
+
+
+                ControllerView.Aggiorna(CartaSceltaDalPc);
+                
+
+                switch (CartaScelta.CompareTo(CartaScelta))
                 {
-                    //da mettere apposto
-                });
+                    case 1:
+                        Giocatore1.Punti += CartaScelta.Punteggio; break;
+                    case -1:
+                        Giocatore2.Punti += CartaSceltaDalPc.Punteggio; break;
+                }
+
                 if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
                     Playing = false;
             }
@@ -75,7 +87,7 @@ namespace WpfBriscola.Models
             while (Playing)
             {
                 //playerTurnEvent.WaitOne();
-
+                GameLoop();
                 ////qua serve il delegato
 
 
