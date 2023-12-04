@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -24,15 +26,20 @@ namespace WpfBriscola
     /// 
     public partial class MainWindow : Window
     {
-        private Partita Partita { get; set; }
+        public Partita Partita { get; set; }
         
         public MainWindow()
         {
             InitializeComponent();
             Partita = new Partita("matteo", "pc");
-           
+            Partita.StartPlaying();
 
 
+        }
+
+        public MainWindow(Partita partita)
+        {
+            Partita = partita;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -40,7 +47,7 @@ namespace WpfBriscola
             LoadImmagini();
             //ThreadStart ts = new ThreadStart(() =>
             //{
-                Partita.GameLoop();
+                
 
             //});
             //Thread gameThread = new Thread(ts);
@@ -56,6 +63,8 @@ namespace WpfBriscola
             //imgCartaPc2.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[1].Path, UriKind.Relative));
             //imgCartaPc3.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[2].Path, UriKind.Relative));
             imgCartaPc1.Source = imgCartaPc2.Source = imgCartaPc3.Source = new BitmapImage(new Uri(@"..\carte\legend.png", UriKind.Relative));
+            btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = true;
+
         }
         private void imgCartaMazzo_Click(object sender, RoutedEventArgs e)
         {
@@ -74,5 +83,6 @@ namespace WpfBriscola
             imgCartaTavolo2.Source = new BitmapImage(new Uri(C.Path, UriKind.Relative));
         }
 
+       
     }
 }

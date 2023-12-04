@@ -10,7 +10,7 @@ using System.Windows.Threading;
 namespace WpfBriscola.Models
 {
 
-    internal class Partita
+    public class Partita
     {
         TaskCompletionSource TaskCartaScelta = new TaskCompletionSource();
 
@@ -52,13 +52,16 @@ namespace WpfBriscola.Models
                 TaskCartaScelta = new TaskCompletionSource();
                 //l'utente ha già scelto la sua carta
 
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
+                
+                Giocatore1.Mano.Remove(CartaScelta);
 
                 Carta CartaSceltaDalPc = Giocatore2.Mossa(CartaScelta);
+                Giocatore1.Mano.Remove(CartaSceltaDalPc);
 
                 ControllerView.Aggiorna(CartaSceltaDalPc);
 
-                switch (CartaScelta.CompareTo(CartaScelta))
+                switch (CartaScelta.CompareTo(CartaSceltaDalPc))
                 {
                     case 1:
                         Giocatore1.Punti += CartaScelta.Punteggio; 

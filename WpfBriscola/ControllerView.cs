@@ -19,10 +19,10 @@ namespace WpfBriscola
         public static void PulisciView()
         {
             MainWindow m = (Application.Current.MainWindow as MainWindow);
-           
-            m.imgCartaTavolo1.Source = m.imgCartaTavolo2.Source = null;
 
-            m.LoadImmagini();
+            m.RicaricaFinestra();
+
+            
 
         }
     }
