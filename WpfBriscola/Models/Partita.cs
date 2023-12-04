@@ -44,32 +44,36 @@ namespace WpfBriscola.Models
                     carta.SettaBriscola();
             return c.Seme;
         }
-        private async void GameLoop()
+        public async void GameLoop()
         {
-            while (Playing)
+            while (CarteGiocate.Count < 40)
             {
-
                 await TaskCartaScelta.Task;
                 TaskCartaScelta = new TaskCompletionSource();
                 //l'utente ha già scelto la sua carta
 
+                Thread.Sleep(2000);
+
                 Carta CartaSceltaDalPc = Giocatore2.Mossa(CartaScelta);
 
-
-
                 ControllerView.Aggiorna(CartaSceltaDalPc);
-                
 
                 switch (CartaScelta.CompareTo(CartaScelta))
                 {
                     case 1:
-                        Giocatore1.Punti += CartaScelta.Punteggio; break;
+                        Giocatore1.Punti += CartaScelta.Punteggio; 
+                        MessageBox.Show("Ha preso l'utente");
+                        break;
                     case -1:
-                        Giocatore2.Punti += CartaSceltaDalPc.Punteggio; break;
+                        Giocatore2.Punti += CartaSceltaDalPc.Punteggio;
+                        MessageBox.Show("Ha preso il PC");
+                        break;
                 }
+                Giocatore1.RiempiMano();
+                Giocatore2.RiempiMano();
 
-                if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
-                    Playing = false;
+                ControllerView.PulisciView();
+                
             }
             
            
@@ -77,20 +81,21 @@ namespace WpfBriscola.Models
 
         public void RitornaCartaScelta(Carta? C)
         {
-            TaskCartaScelta.SetResult();
             CartaScelta = C;
+            TaskCartaScelta.SetResult();
         }
 
         public void StartPlaying()
         {
-            //hread gameThread = new Thread(GameLoop);
+            //hread gameThread = new Thread(GameLoop)
             while (Playing)
             {
                 //playerTurnEvent.WaitOne();
                 GameLoop();
                 ////qua serve il delegato
 
-
+                if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                    Playing = false;
                 //playerTurnEvent.Set();
             }
         }

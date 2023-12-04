@@ -13,11 +13,17 @@ namespace WpfBriscola
     {
         public static void Aggiorna(Carta C)
         {
-            
-          
-                (Application.Current.MainWindow as MainWindow).CaricaCartaPC(C);
-          
+            (Application.Current.MainWindow as MainWindow).CaricaCartaPC(C);    
+        }
+
+        public static void PulisciView()
+        {
+            MainWindow m = (Application.Current.MainWindow as MainWindow);
            
+            m.imgCartaTavolo1.Source = m.imgCartaTavolo2.Source = null;
+
+            m.LoadImmagini();
+
         }
     }
 }

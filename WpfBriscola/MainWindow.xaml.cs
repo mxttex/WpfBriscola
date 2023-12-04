@@ -30,12 +30,7 @@ namespace WpfBriscola
         {
             InitializeComponent();
             Partita = new Partita("matteo", "pc");
-            ThreadStart ts = new ThreadStart(() =>
-            {
-                Partita.StartPlaying();
-
-            });
-            Thread gameThread = new Thread(ts);
+           
 
 
         }
@@ -43,9 +38,15 @@ namespace WpfBriscola
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadImmagini();
+            //ThreadStart ts = new ThreadStart(() =>
+            //{
+                Partita.GameLoop();
+
+            //});
+            //Thread gameThread = new Thread(ts);
         }
 
-        private void LoadImmagini()
+        internal void LoadImmagini()
         {
             imgCartaMazzo1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
             imgCartaMazzo2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
