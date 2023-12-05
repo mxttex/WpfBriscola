@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Xml.Serialization;
 using WpfBriscola.Models;
 using static System.Net.Mime.MediaTypeNames;
+using Image = System.Windows.Controls.Image;
 
 namespace WpfBriscola
 {
@@ -56,14 +57,22 @@ namespace WpfBriscola
 
         internal void LoadImmagini()
         {
+            //Creo le immagini delle varie carte
+            Image im1 = new Image();
+            im1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
+            Image im2 = new Image(); 
+            im2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
+            Image im3 = new Image();
+            im3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
             
-            imgCartaMazzo1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
-            imgCartaMazzo2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
-            imgCartaMazzo3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
+            //Assegno il contenuto dei bottoni a quelle immagini
+            btnCartaMazzo1.Content = im1;
+            btnCartaMazzo2.Content = im2;
+            btnCartaMazzo3.Content = im3;
+
+
             imgBriscola.Source    = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
-            //imgCartaPc1.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[0].Path, UriKind.Relative));
-            //imgCartaPc2.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[1].Path, UriKind.Relative));
-            //imgCartaPc3.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[2].Path, UriKind.Relative));
+
             imgCartaPc1.Source = imgCartaPc2.Source = imgCartaPc3.Source = new BitmapImage(new Uri(@"..\carte\legend.png", UriKind.Relative));
             imgCartaTavolo1.Source = imgCartaTavolo2.Source = null;
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = true;
@@ -75,8 +84,6 @@ namespace WpfBriscola
             imgCartaTavolo1.Source = new BitmapImage(new Uri(CartaScelta.Path, UriKind.Relative));
             (sender as Button).Content = null;
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = false;
-
-            
 
             Partita.RitornaCartaScelta(CartaScelta);
         }
