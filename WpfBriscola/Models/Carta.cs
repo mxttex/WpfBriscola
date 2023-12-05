@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfBriscola.Models
 {
-    internal class Carta : IComparable<Carta>
+    public class Carta : IComparable<Carta>
     {
         internal int Numero { get; set; }
         internal string Seme { get; set; }
@@ -101,7 +101,7 @@ namespace WpfBriscola.Models
         public int CompareTo(Carta other)
         {
             if (this.IsBriscola && !other.IsBriscola) return 1;
-            //if (this.Seme != semeInGioco) return -1;
+            //if (other.Seme != semeInGioco) return -1;
             if (this.Punteggio > other.Punteggio) return 1;
             if ((this.Punteggio == 0 && other.Punteggio == 0) && (this.Numero > other.Numero)) return 1;
 

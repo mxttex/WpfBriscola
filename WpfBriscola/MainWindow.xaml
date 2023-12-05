@@ -34,19 +34,13 @@
 
         <StackPanel Grid.ColumnSpan="100" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <Button Name="btnCartaMazzo1" Click="imgCartaMazzo_Click" Width="57" Height="79" Margin="10">
-                <Button.Content>
-                    <Image Hyperlink.Click="imgCartaMazzo_Click" Name="imgCartaMazzo1" ></Image >
-                </Button.Content>
+               
             </Button>
             <Button Name="btnCartaMazzo2" Click="imgCartaMazzo_Click" Width="57" Height="79" Margin="10">
-                <Button.Content>
-                    <Image Hyperlink.Click="imgCartaMazzo_Click" Name="imgCartaMazzo2" ></Image >
-                </Button.Content>
+                
             </Button>
             <Button Name="btnCartaMazzo3" Click="imgCartaMazzo_Click" Width="57" Height="79" Margin="10">
-                <Button.Content>
-                    <Image Hyperlink.Click="imgCartaMazzo_Click" Name="imgCartaMazzo3" ></Image >
-                </Button.Content>
+                
             </Button>
 
         </StackPanel>

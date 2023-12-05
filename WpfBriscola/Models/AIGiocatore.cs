@@ -47,7 +47,14 @@ namespace WpfBriscola.Models
             int ris = 0;
             for (int i = 0; i < Mano.Count; i++)
             {
-                if ((!Mano[i].IsBriscola) && (Mano[i].Seme == cartaAvversario.Seme))  //controllo se la carta non è una briscola
+                if ((!Mano[i].IsBriscola) && (Mano[i].Seme != cartaAvversario.Seme))
+                {
+                    CartaVincente = Mano[i]; 
+                    return false;
+                }
+                   
+
+                //controllo se la carta non è una briscola
                 ris = Mano[i].CompareTo(cartaAvversario);
                 if (ris == 1)
                 {
