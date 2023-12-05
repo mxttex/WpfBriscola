@@ -20,9 +20,7 @@ namespace WpfBriscola
         {
             MainWindow m = (Application.Current.MainWindow as MainWindow);
 
-            m.RicaricaFinestra();
-
-            
+            m.LoadImmagini();
 
         }
     }

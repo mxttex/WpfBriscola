@@ -63,6 +63,7 @@ namespace WpfBriscola
             //imgCartaPc2.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[1].Path, UriKind.Relative));
             //imgCartaPc3.Source  = new BitmapImage(new Uri(Partita.Giocatore2.Mano[2].Path, UriKind.Relative));
             imgCartaPc1.Source = imgCartaPc2.Source = imgCartaPc3.Source = new BitmapImage(new Uri(@"..\carte\legend.png", UriKind.Relative));
+            imgCartaTavolo1.Source = imgCartaTavolo2.Source = null;
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = true;
 
         }
