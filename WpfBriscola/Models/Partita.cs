@@ -13,15 +13,15 @@ namespace WpfBriscola.Models
     public class Partita
     {
         TaskCompletionSource TaskCartaScelta = new TaskCompletionSource();
+        TaskCompletionSource TaskPartita = new TaskCompletionSource();
 
-        private ManualResetEvent playerTurnEvent = new ManualResetEvent(false);
         private bool Playing { get; set; }
         internal Models.Mazzo Mazzo { get; set; }
         internal Giocatore Giocatore1 { get; set; }
         internal AIGiocatore Giocatore2 { get; set; }
         internal string SemeBriscola { get; set; }
         internal Carta BriscolaFinale { get; set; }
-        internal List<Carta> CarteGiocate { get; set; }
+        internal int CarteGiocate { get; set; }
         internal Carta CartaScelta { get; set; }
         public Partita(string nomeGiocatore1, string nomeGiocatore2)
         {
@@ -29,7 +29,7 @@ namespace WpfBriscola.Models
             Giocatore1 = new Giocatore(1, nomeGiocatore1, Mazzo);
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
             SemeBriscola = PescaBriscola();
-            CarteGiocate = new List<Carta>();
+            CarteGiocate =0;
             Playing = true; //di default l'utente vuole fare una partita
 
         }
@@ -46,13 +46,13 @@ namespace WpfBriscola.Models
         }
         public async void GameLoop()
         {
-            while (CarteGiocate.Count < 40)
+            while (CarteGiocate < 40)
             {
                 await TaskCartaScelta.Task;
                 TaskCartaScelta = new TaskCompletionSource();
                 //l'utente ha già scelto la sua carta
 
-                Thread.Sleep(1000);
+                Thread.Sleep(50);
                 
                 Giocatore1.Mano.Remove(CartaScelta);
 
@@ -60,6 +60,9 @@ namespace WpfBriscola.Models
                 Giocatore1.Mano.Remove(CartaSceltaDalPc);
 
                 ControllerView.Aggiorna(CartaSceltaDalPc);
+
+                CarteGiocate++;
+                CarteGiocate++;
 
                 switch (CartaScelta.CompareTo(CartaSceltaDalPc))
                 {
@@ -75,11 +78,15 @@ namespace WpfBriscola.Models
                 Giocatore1.RiempiMano();
                 Giocatore2.RiempiMano();
 
+
+                //Thread.Sleep(2000);
                 ControllerView.PulisciView();
+
+               
                 
             }
-            
-           
+
+            TaskPartita.SetResult();
         }
 
         public void RitornaCartaScelta(Carta? C)
@@ -88,17 +95,23 @@ namespace WpfBriscola.Models
             TaskCartaScelta.SetResult();
         }
 
-        public void StartPlaying()
+        public async void StartPlaying()
         {
             //hread gameThread = new Thread(GameLoop)
             while (Playing)
             {
                 //playerTurnEvent.WaitOne();
+                CarteGiocate = 0;
                 GameLoop();
                 ////qua serve il delegato
-
+                ///
+                await TaskPartita.Task;
+                TaskPartita = new TaskCompletionSource();
+               
                 if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
                     Playing = false;
+
+               
                 //playerTurnEvent.Set();
             }
         }

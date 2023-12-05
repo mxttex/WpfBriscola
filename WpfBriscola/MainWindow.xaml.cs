@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 using WpfBriscola.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfBriscola
 {
@@ -55,6 +56,7 @@ namespace WpfBriscola
 
         internal void LoadImmagini()
         {
+            
             imgCartaMazzo1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
             imgCartaMazzo2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
             imgCartaMazzo3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
