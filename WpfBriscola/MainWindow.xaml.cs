@@ -42,7 +42,7 @@ namespace WpfBriscola
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            PulisciTavolo();
             LoadImmagini();
         }
 
@@ -56,7 +56,7 @@ namespace WpfBriscola
                 btnCartaMazzo1.Content = im1;
 
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 btnCartaMazzo1.Visibility = Visibility.Collapsed;
             }
@@ -86,10 +86,10 @@ namespace WpfBriscola
             }
 
             //Assegno il contenuto dei bottoni a quelle immagini
-            imgBriscola.Source    = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
+            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
 
             imgCartaPc1.Source = imgCartaPc2.Source = imgCartaPc3.Source = new BitmapImage(new Uri(@"..\carte\legend.png", UriKind.Relative));
-  
+
         }
 
         public void PulisciTavolo()
@@ -112,12 +112,19 @@ namespace WpfBriscola
             Partita.RitornaCartaScelta(CartaScelta);
         }
 
+        public void Aggiornatavolo(Carta Utente, Carta Pc)
+        {
+            imgCartaTavolo1.Source = new BitmapImage(new Uri(Utente.Path, UriKind.Relative));
+            imgCartaTavolo2.Source = new BitmapImage(new Uri(Pc.Path, UriKind.Relative));
+
+        }
+
         internal void CaricaCartaPC(Carta C)
         {
             //imgCartaTavolo2 = new Image();
             imgCartaTavolo2.Source = new BitmapImage(new Uri(C.Path, UriKind.Relative));
         }
 
-       
+
     }
 }

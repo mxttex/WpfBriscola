@@ -78,19 +78,25 @@ namespace WpfBriscola.Models
                 }
 
                 Giocatore1.Mano.Remove(CartaScelta);
-                switch (CartaScelta.CompareTo(CartaSceltaDalPc))
+
+
+                int vincitore = CalcolaVincitore(CartaScelta, CartaSceltaDalPc, turno);
+
+                
+                switch (vincitore)
                 {
                     case 1:
-                        Giocatore1.Punti += CartaScelta.Punteggio;
                         turno = 0;
+                        Giocatore1.Punti += CartaScelta.Punteggio;
                         MessageBox.Show("Ha preso l'utente");
                         break;
                     case -1:
-                        Giocatore2.Punti += CartaSceltaDalPc.Punteggio;
                         turno = 1;
+                        Giocatore2.Punti += CartaSceltaDalPc.Punteggio;
                         MessageBox.Show("Ha preso il PC");
                         break;
                 }
+
                 try
                 {
                     Giocatore1.RiempiMano();
@@ -99,12 +105,12 @@ namespace WpfBriscola.Models
                 catch (Exception) { }
 
 
-                //Thread.Sleep(2000);
-                ControllerView.PulisciView();
+                 ControllerView.PulisciView();
             }
 
             TaskPartita.SetResult();
         }
+        
 
         public void RitornaCartaScelta(Carta? C)
         {
@@ -126,6 +132,23 @@ namespace WpfBriscola.Models
                     Playing = false;
             }
         }
-  
+
+        private int CalcolaVincitore(Carta utente, Carta pc, int turno)
+        {
+            
+            switch (turno)
+            {
+                case 0:
+                    if (utente.Seme != pc.Seme) return 1;
+                    break;
+
+                case 1:
+                    if (pc.Seme != utente.Seme) return -1;
+                    break;
+            }
+            return utente.CompareTo(pc);
+            
+        }
+
     }
 }
