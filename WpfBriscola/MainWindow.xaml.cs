@@ -28,6 +28,7 @@ namespace WpfBriscola
     /// 
     public partial class MainWindow : Window
     {
+         
         public Partita Partita { get; set; }
         
         public MainWindow()
@@ -35,48 +36,71 @@ namespace WpfBriscola
             InitializeComponent();
             Partita = new Partita("matteo", "pc");
             Partita.StartPlaying();
-
-
         }
 
-        public MainWindow(Partita partita)
-        {
-            Partita = partita;
-        }
+       
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            
             LoadImmagini();
-            //ThreadStart ts = new ThreadStart(() =>
-            //{
-                
-
-            //});
-            //Thread gameThread = new Thread(ts);
         }
 
         internal void LoadImmagini()
         {
             //Creo le immagini delle varie carte
-            Image im1 = new Image();
-            im1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
-            Image im2 = new Image(); 
-            im2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
-            Image im3 = new Image();
-            im3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
-            
+            try
+            {
+                Image im1 = new Image();
+                im1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
+                btnCartaMazzo1.Content = im1;
+
+            }
+            catch (Exception) 
+            {
+                btnCartaMazzo1.Visibility = Visibility.Collapsed;
+            }
+
+            try
+            {
+                Image im2 = new Image();
+                im2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
+                btnCartaMazzo2.Content = im2;
+
+            }
+            catch (Exception)
+            {
+                btnCartaMazzo2.Visibility = Visibility.Collapsed;
+            }
+
+            try
+            {
+                Image im3 = new Image();
+                im3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
+                btnCartaMazzo3.Content = im3;
+
+            }
+            catch (Exception)
+            {
+                btnCartaMazzo3.Visibility = Visibility.Collapsed;
+            }
+
             //Assegno il contenuto dei bottoni a quelle immagini
-            btnCartaMazzo1.Content = im1;
-            btnCartaMazzo2.Content = im2;
-            btnCartaMazzo3.Content = im3;
-
-
             imgBriscola.Source    = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
 
             imgCartaPc1.Source = imgCartaPc2.Source = imgCartaPc3.Source = new BitmapImage(new Uri(@"..\carte\legend.png", UriKind.Relative));
-            imgCartaTavolo1.Source = imgCartaTavolo2.Source = null;
-            btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = true;
+  
+        }
 
+        public void PulisciTavolo()
+        {
+            imgCartaTavolo1.Source = imgCartaTavolo2.Source = null;
+            
+        }
+
+        public void AttivaBottoni()
+        {
+            btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = true;
         }
         private void imgCartaMazzo_Click(object sender, RoutedEventArgs e)
         {
@@ -90,6 +114,7 @@ namespace WpfBriscola
 
         internal void CaricaCartaPC(Carta C)
         {
+            //imgCartaTavolo2 = new Image();
             imgCartaTavolo2.Source = new BitmapImage(new Uri(C.Path, UriKind.Relative));
         }
 
