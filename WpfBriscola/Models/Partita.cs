@@ -139,11 +139,11 @@ namespace WpfBriscola.Models
             switch (turno)
             {
                 case 0:
-                    if (utente.Seme != pc.Seme) return 1;
+                    if ((utente.Seme != pc.Seme) && !(pc.IsBriscola)) return 1;
                     break;
 
                 case 1:
-                    if (pc.Seme != utente.Seme) return -1;
+                    if (pc.Seme != utente.Seme && !(utente.IsBriscola)) return -1;
                     break;
             }
             return utente.CompareTo(pc);

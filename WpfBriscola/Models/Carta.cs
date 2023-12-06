@@ -100,9 +100,9 @@ namespace WpfBriscola.Models
 
         public int CompareTo(Carta? other)
         {
-            if (this.IsBriscola && !other.IsBriscola) return 1;
+            if (this.IsBriscola && !(other.IsBriscola)) return 1;
             //if (other.Seme != semeInGioco) return -1;
-            if (other.IsBriscola && !this.IsBriscola) return -1;
+            if (other.IsBriscola && !(this.IsBriscola)) return -1;
             if (this.Punteggio > other.Punteggio) return 1;
             if ((this.Punteggio == 0 && other.Punteggio == 0) && (this.Numero > other.Numero)) return 1;
 
