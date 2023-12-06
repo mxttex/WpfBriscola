@@ -21,6 +21,8 @@ namespace WpfBriscola
             MainWindow m = (Application.Current.MainWindow as MainWindow);
 
             m.LoadImmagini();
+            m.PulisciTavolo();
+            m.AttivaBottoni();
 
         }
     }

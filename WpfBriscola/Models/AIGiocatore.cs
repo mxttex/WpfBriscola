@@ -10,9 +10,10 @@ namespace WpfBriscola.Models
     {
         public AIGiocatore(int numero, string nome, Mazzo mazzo) :base(numero, nome, mazzo) { }
 
-        public Carta Mossa(Carta cartaAvversario)
+        public Carta Mossa(Carta? cartaAvversario)
         {
             Carta? CartaScelta;
+            if (cartaAvversario is null) return CartaValoreMinimo();
             if (ProvaAVincere(cartaAvversario, out CartaScelta)) return CartaScelta;
             CartaScelta = CartaValoreMinimo();
             return CartaScelta;

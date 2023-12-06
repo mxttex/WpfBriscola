@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfBriscola.Models
 {
-    public class Carta : IComparable<Carta>
+    public class Carta : IComparable<Carta>, IEquatable<Carta>
     {
         internal int Numero { get; set; }
         internal string Seme { get; set; }
@@ -16,7 +16,7 @@ namespace WpfBriscola.Models
 
         public Carta()
         {
-            
+            Path = string.Empty;
         }
         public Carta(int numero, int seme)
         {
@@ -98,15 +98,24 @@ namespace WpfBriscola.Models
             return ritorno + this.Seme;
         }
 
-        public int CompareTo(Carta other)
+        public int CompareTo(Carta? other)
         {
-            if (this.IsBriscola && !other.IsBriscola) return 1;
+            if (this.IsBriscola && !(other.IsBriscola)) return 1;
             //if (other.Seme != semeInGioco) return -1;
+            if (other.IsBriscola && !(this.IsBriscola)) return -1;
             if (this.Punteggio > other.Punteggio) return 1;
             if ((this.Punteggio == 0 && other.Punteggio == 0) && (this.Numero > other.Numero)) return 1;
 
             return -1;
         }
+
+        public bool Equals(Carta? other)
+        {
+            if (this.ToString() == other.ToString()) return true;
+            else return false;
+        }
+
+
 
         //overload per poter confrontare qual è il punteggio associato a quella carta
         public static bool operator <(Carta a, int valore)
