@@ -54,6 +54,6 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Grid.Row="2" Grid.Column="2" Width="57" Height="79" Margin="77,21,124,22" Source="..\carte\legend.png"></Image>
+        <Image Name="imgCartaTopMazzo" Grid.Row="2" Grid.Column="2" Width="57" Height="79" Margin="77,21,124,22" Source="..\carte\legend.png"></Image>
     </Grid>
 </Window>

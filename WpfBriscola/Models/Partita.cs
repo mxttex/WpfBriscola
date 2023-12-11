@@ -102,7 +102,7 @@ namespace WpfBriscola.Models
                     Giocatore1.RiempiMano();
                     Giocatore2.RiempiMano();
                 }
-                catch (Exception) { }
+                catch (Exception) { ControllerView.RimuoviCartaMazzo(); }
 
 
                  ControllerView.PulisciView();

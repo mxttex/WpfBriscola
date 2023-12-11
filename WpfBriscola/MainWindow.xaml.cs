@@ -125,6 +125,10 @@ namespace WpfBriscola
             imgCartaTavolo2.Source = new BitmapImage(new Uri(C.Path, UriKind.Relative));
         }
 
+        internal void RimuoviBriscola()
+        {
+            imgBriscola.Source = imgCartaTopMazzo.Source = null;
+        }
 
     }
 }
