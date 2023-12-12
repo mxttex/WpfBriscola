@@ -12,9 +12,10 @@ namespace WpfBriscola.Models
 
     public class Partita
     {
-        TaskCompletionSource TaskCartaScelta = new TaskCompletionSource();
-        TaskCompletionSource TaskPartita = new TaskCompletionSource();
+        private TaskCompletionSource TaskCartaScelta = new TaskCompletionSource();
+        private TaskCompletionSource TaskPartita = new TaskCompletionSource();
 
+        internal ControllerView controllerView { private get; set; }
         private bool Playing { get; set; }
         internal Models.Mazzo Mazzo { get; set; }
         internal Giocatore Giocatore1 { get; set; }
@@ -23,16 +24,20 @@ namespace WpfBriscola.Models
         internal Carta BriscolaFinale { get; set; }
         internal int CarteGiocate { get; set; }
         internal Carta CartaScelta { get; set; }
-        public Partita(string nomeGiocatore1, string nomeGiocatore2)
+        internal Partita(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller)
+        {
+            controllerView = controller;
+            InizializzaPartita(nomeGiocatore1, nomeGiocatore2);
+
+        }
+        internal void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
         {
             Mazzo = new Mazzo();
             SemeBriscola = PescaBriscola();
             Giocatore1 = new Giocatore(1, nomeGiocatore1, Mazzo);
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
-            
-            CarteGiocate =0;
+            CarteGiocate = 0;
             Playing = true; //di default l'utente vuole fare una partita
-
         }
 
         private string PescaBriscola()
@@ -51,7 +56,7 @@ namespace WpfBriscola.Models
             Carta scelta = Giocatore2.Mossa(carta);
             CarteGiocate++;
             Giocatore2.Mano.Remove(scelta);
-            ControllerView.Aggiorna(scelta);
+            controllerView.Aggiorna(scelta);
             return scelta;
         }
         public async void GameLoop()
@@ -82,30 +87,30 @@ namespace WpfBriscola.Models
 
                 int vincitore = CalcolaVincitore(CartaScelta, CartaSceltaDalPc, turno);
 
-                
+                int punteggio = CalcolaPunteggio(CartaScelta, CartaSceltaDalPc);
                 switch (vincitore)
                 {
                     case 1:
                         turno = 0;
-                        Giocatore1.Punti += CartaScelta.Punteggio;
+                        Giocatore1.Punti += punteggio;
                         MessageBox.Show("Ha preso l'utente");
                         break;
                     case -1:
                         turno = 1;
-                        Giocatore2.Punti += CartaSceltaDalPc.Punteggio;
+                        Giocatore2.Punti += punteggio;
                         MessageBox.Show("Ha preso il PC");
                         break;
                 }
 
-                try
+                if(Mazzo.ListaCarte.Count > 0)
                 {
                     Giocatore1.RiempiMano();
                     Giocatore2.RiempiMano();
+                    if (Mazzo.ListaCarte.Count == 0)
+                        controllerView.RimuoviCartaMazzo();
                 }
-                catch (Exception) { ControllerView.RimuoviCartaMazzo(); }
-
-
-                 ControllerView.PulisciView();
+               
+                 controllerView.PulisciView();
             }
 
             TaskPartita.SetResult();
@@ -120,6 +125,7 @@ namespace WpfBriscola.Models
 
         public async void StartPlaying()
         {
+            controllerView.CaricaBriscola();
             while (Playing)
             {
                 CarteGiocate = 0;
@@ -127,10 +133,19 @@ namespace WpfBriscola.Models
 
                 await TaskPartita.Task;
                 TaskPartita = new TaskCompletionSource();
-               
+
+                VisualizzaMessageBoxVincitore();
                 if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
                     Playing = false;
+                else InizializzaPartita(Giocatore1.Nome, Giocatore2.Nome); controllerView.RicostruisciWindow();
+
             }
+            controllerView.SwitchaFinestra();
+        }
+
+        private int CalcolaPunteggio(Carta c1, Carta c2)
+        {
+            return c1.Punteggio + c2.Punteggio;
         }
 
         private int CalcolaVincitore(Carta utente, Carta pc, int turno)
@@ -148,6 +163,24 @@ namespace WpfBriscola.Models
             }
             return utente.CompareTo(pc);
             
+        }
+
+        private void VisualizzaMessageBoxVincitore()
+        {
+            StringBuilder sb = new();
+            int differenzaPunti = Giocatore1.Punti - Giocatore2.Punti;
+
+            if (differenzaPunti > 0)
+                sb.AppendLine("Ha vinto " + Giocatore1.Nome);
+            else if (differenzaPunti == 0)
+                sb.AppendLine("La partita è finita in parità");
+            else
+                sb.AppendLine("Ha vinto " + Giocatore2.Nome);
+
+            sb.AppendLine($"Punti fatti da {Giocatore1} = {Giocatore1.Punti}");
+            sb.AppendLine($"Punti fatti da {Giocatore2} = {Giocatore2.Punti}");
+
+            MessageBox.Show(sb.ToString(), "Risultato", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
     }

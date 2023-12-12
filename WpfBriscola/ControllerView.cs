@@ -11,22 +11,54 @@ namespace WpfBriscola
 {
     internal class ControllerView
     {
-        private static MainWindow m = (Application.Current.MainWindow as MainWindow);
-        public static void Aggiorna(Carta C)
+        private MainWindow Window { get; set; }
+        public ControllerView(MainWindow mw)
         {
-            m.CaricaCartaPC(C);    
+            Window = mw;
+        }
+        public  void Aggiorna(Carta C)
+        {
+            Window.CaricaCartaPC(C);    
         }
 
-        public static void PulisciView()
+        public void RicostruisciWindow()
         {
-            m.LoadImmagini();
-            m.PulisciTavolo();
-            m.AttivaBottoni();
+            PulisciView();
+            RicaricaBottoni();
+            Window.RicaricaBriscola();
+            CaricaBriscola();
+
         }
 
-        public static void RimuoviCartaMazzo()
+        public void PulisciView()
         {
-            m.RimuoviBriscola();
+            Window.LoadImmagini();
+            Window.PulisciTavolo();
+            Window.AttivaBottoni();
+            
         }
+
+        public void RimuoviCartaMazzo()
+        { 
+            Window.RimuoviBriscola();
+        }
+
+        private void RicaricaBottoni()
+        {
+            Window.RiattivaBottoni();
+        }
+
+        public void CaricaBriscola()
+        {
+            Window.CaricaBriscola();
+        }
+        
+        public void SwitchaFinestra()
+        {
+            StartingWindow sw = new();
+            sw.Show();
+            Window.Close();
+        }
+
     }
 }
