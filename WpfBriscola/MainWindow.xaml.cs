@@ -30,12 +30,14 @@ namespace WpfBriscola
     {
          
         public Partita Partita { get; set; }
+        private ControllerView controllerView { get; set; }
         
-        public MainWindow()
+        public MainWindow(string namePlayerOne)
         {
             InitializeComponent();
-            Partita = new Partita("matteo", "pc");
-            Partita.StartPlaying();
+            controllerView = new(this);
+            Partita = new Partita(namePlayerOne, "pc", controllerView);
+            
         }
 
        
@@ -44,6 +46,7 @@ namespace WpfBriscola
         {
             PulisciTavolo();
             LoadImmagini();
+            Partita.StartPlaying();
         }
 
         internal void LoadImmagini()
@@ -101,6 +104,11 @@ namespace WpfBriscola
         public void AttivaBottoni()
         {
             btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = true;
+
+        }
+        public void RiattivaBottoni()
+        {
+            btnCartaMazzo1.Visibility = btnCartaMazzo2.Visibility = btnCartaMazzo3.Visibility = Visibility.Visible;
         }
         private void imgCartaMazzo_Click(object sender, RoutedEventArgs e)
         {
@@ -127,7 +135,11 @@ namespace WpfBriscola
 
         internal void RimuoviBriscola()
         {
-            imgBriscola.Source = imgCartaTopMazzo.Source = null;
+            imgBriscola.Visibility = imgCartaTopMazzo.Visibility = Visibility.Hidden;
+        }
+        internal void RicaricaBriscola()
+        {
+            imgBriscola.Visibility = imgCartaTopMazzo.Visibility = Visibility.Visible;
         }
 
     }

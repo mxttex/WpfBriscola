@@ -24,7 +24,7 @@
         <Label Grid.Row="0" Grid.ColumnSpan="3" Background="Orange" FontSize="28" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic">BRISCOLA</Label>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
             <Label>Inserire Il Nome Del Giocatore:</Label>
-            <TextBox Name="txtNomeGiocatore" TextChanged="txtNomeGiocatore_TextChanged" Width="308" Height="23" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="txtNomeGiocatore" TextChanged="txtNomeGiocatore_TextChanged" Width="303" Height="23" VerticalAlignment="Top"></TextBox>
         </StackPanel>
 
         <Grid Grid.Row="3" Grid.Column="1">

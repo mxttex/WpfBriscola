@@ -29,5 +29,10 @@ namespace WpfBriscola.Models
             for (int i = 0; i < ripetizioni; i++)
                 Mano.Add(Mazzo.PrimaCarta()); 
         }
+
+        public override string ToString()
+        {
+            return Nome;
+        }
     }
 }
