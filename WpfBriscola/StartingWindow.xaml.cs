@@ -32,11 +32,6 @@ namespace WpfBriscola
             this.Close();
         }
 
-        private void btnStoricoPartite_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             txtNomeGiocatore.Text = string.Empty;

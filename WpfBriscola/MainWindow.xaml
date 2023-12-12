@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfBriscola"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="MainWindow" Height="450" Width="800" >
+        Title="La Briscola" Height="450" Width="800" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.55*"></RowDefinition>
