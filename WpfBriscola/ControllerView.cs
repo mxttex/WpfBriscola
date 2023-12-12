@@ -18,7 +18,6 @@ namespace WpfBriscola
         }
         public  void Aggiorna(Carta C)
         {
-
             Window.CaricaCartaPC(C);    
         }
 
@@ -27,6 +26,7 @@ namespace WpfBriscola
             PulisciView();
             RicaricaBottoni();
             Window.RicaricaBriscola();
+            CaricaBriscola();
 
         }
 
@@ -47,5 +47,18 @@ namespace WpfBriscola
         {
             Window.RiattivaBottoni();
         }
+
+        public void CaricaBriscola()
+        {
+            Window.CaricaBriscola();
+        }
+        
+        public void SwitchaFinestra()
+        {
+            StartingWindow sw = new();
+            sw.Show();
+            Window.Close();
+        }
+
     }
 }

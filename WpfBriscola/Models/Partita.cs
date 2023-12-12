@@ -102,14 +102,14 @@ namespace WpfBriscola.Models
                         break;
                 }
 
-                try
+                if(Mazzo.ListaCarte.Count > 0)
                 {
                     Giocatore1.RiempiMano();
                     Giocatore2.RiempiMano();
+                    if (Mazzo.ListaCarte.Count == 0)
+                        controllerView.RimuoviCartaMazzo();
                 }
-                catch (Exception) { controllerView.RimuoviCartaMazzo(); }
-
-
+               
                  controllerView.PulisciView();
             }
 
@@ -125,6 +125,7 @@ namespace WpfBriscola.Models
 
         public async void StartPlaying()
         {
+            controllerView.CaricaBriscola();
             while (Playing)
             {
                 CarteGiocate = 0;
@@ -139,6 +140,7 @@ namespace WpfBriscola.Models
                 else InizializzaPartita(Giocatore1.Nome, Giocatore2.Nome); controllerView.RicostruisciWindow();
 
             }
+            controllerView.SwitchaFinestra();
         }
 
         private int CalcolaPunteggio(Carta c1, Carta c2)

@@ -89,10 +89,14 @@ namespace WpfBriscola
             }
 
             //Assegno il contenuto dei bottoni a quelle immagini
-            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
 
             imgCartaPc1.Source = imgCartaPc2.Source = imgCartaPc3.Source = new BitmapImage(new Uri(@"..\carte\legend.png", UriKind.Relative));
 
+        }
+
+        public void CaricaBriscola()
+        {
+            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
         }
 
         public void PulisciTavolo()
