@@ -7,8 +7,11 @@ using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
 {
+    
+
     public class Carta : IComparable<Carta>, IEquatable<Carta>
     {
+        
         internal int Numero { get; set; }
         internal string Seme { get; set; }
         internal string Path { get; set; }  
@@ -24,18 +27,18 @@ namespace WpfBriscola.Models
         {
             Numero = numero;
 
-            switch (seme)
+            switch ((Semi)seme)
             {
-                case 0:
+                case Semi.Denara:
                     Seme = "denara";
                     break;
-                case 1:
+                case Semi.Bastoni:
                     Seme = "bastoni";
                     break;
-                case 2:
+                case Semi.Coppe:
                     Seme = "coppe";
                     break;
-                case 3:
+                case Semi.Spade:
                     Seme = "spade";
                     break;
                 default:
@@ -44,19 +47,19 @@ namespace WpfBriscola.Models
 
             Path = $@"..\carte\_{Seme.Substring(0, 1)}.{Numero}.png";
 
-            switch (Numero)
+            switch ((CarteSpeciali)Numero)
             {
                 default:
                     Punteggio = 0; break;
-                case 1:
+                case CarteSpeciali.Asso:
                     Punteggio = 11; break;
-                case 3:
+                case CarteSpeciali.Tre:
                     Punteggio = 10; break;
-                case 10:
+                case CarteSpeciali.Re:
                     Punteggio = 4; break;
-                case 9:
+                case CarteSpeciali.Cavallo:
                     Punteggio = 3; break;
-                case 8:
+                case CarteSpeciali.Fante:
                     Punteggio = 2; break;
             }
 

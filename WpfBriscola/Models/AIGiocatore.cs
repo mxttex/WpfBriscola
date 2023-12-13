@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
 {
     internal class AIGiocatore:Giocatore
     {
+        internal bool[] CarteUscite { get; set; }
         public AIGiocatore(int numero, string nome, Mazzo mazzo) :base(numero, nome, mazzo) { }
 
         public Carta Mossa(Carta? cartaAvversario)
         {
             Carta? CartaScelta;
+            CarteUscite = new bool[40];
             if (cartaAvversario is null) return CartaValoreMinimo();
             if (ProvaAVincere(cartaAvversario, out CartaScelta)) return CartaScelta;
             CartaScelta = CartaValoreMinimo();
             return CartaScelta;
         }
+
+
 
         private Carta CartaValoreMinimo()
         {
@@ -66,6 +71,8 @@ namespace WpfBriscola.Models
             CartaVincente = null;
             return false;
         }
-        
+
+       
+
     }
 }

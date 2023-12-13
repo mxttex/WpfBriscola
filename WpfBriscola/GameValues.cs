@@ -8,6 +8,22 @@ namespace WpfBriscola
 {
     internal static class GameValues
     {
+        internal enum Semi
+        {
+            Denara = 0,
+            Bastoni = 1,
+            Coppe = 2,
+            Spade = 3
+        }
+        internal enum CarteSpeciali
+        {
+            Fante = 8,
+            Cavallo = 9,
+            Re = 10,
+            Asso = 1,
+            Tre = 3
+        }
+
         public static int errP { get; set; }
         public static int memP { get; set; }
         
