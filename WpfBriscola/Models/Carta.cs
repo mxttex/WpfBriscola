@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
 {
@@ -13,6 +14,7 @@ namespace WpfBriscola.Models
         internal string Path { get; set; }  
         internal int Punteggio { get; set; }
         internal bool IsBriscola { get; set; }
+        internal double PesoConst { get; set; }
 
         public Carta()
         {
@@ -59,8 +61,13 @@ namespace WpfBriscola.Models
             }
 
             IsBriscola = false;
+            PesoConst = CalcolaPesoConst();
         }
 
+        public double CalcolaPesoConst()
+        {
+            return coeffP * Punteggio + peroBrisc * (IsBriscola ? 0 : 1);
+        }
 
         internal void SettaBriscola()
         {

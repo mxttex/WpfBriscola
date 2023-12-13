@@ -145,6 +145,17 @@ namespace WpfBriscola
         {
             imgBriscola.Visibility = imgCartaTopMazzo.Visibility = Visibility.Visible;
         }
-
+        internal void SegnalaFineMazzo()
+        {
+            //if (Partita.Mazzo.ListaCarte.Count == 4)
+            //{
+            //    BackGround.Background = Brushes.Green;
+            //}
+            //if (Partita.Mazzo.ListaCarte.Count == 2)
+            //{
+            //    BackGround.Background = Brushes.Red;
+            //}
+            //else BackGround.Background = Brushes.White;
+        }
     }
 }

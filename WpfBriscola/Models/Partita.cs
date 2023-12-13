@@ -46,8 +46,11 @@ namespace WpfBriscola.Models
             Mazzo.ListaCarte.Add(c);
             BriscolaFinale = c;
             foreach (Carta carta in Mazzo.ListaCarte) 
-                if (carta.Seme == c.Seme) 
+                if (carta.Seme == c.Seme)
+                {
                     carta.SettaBriscola();
+                    carta.CalcolaPesoConst();
+                }
             return c.Seme;
         }
 
@@ -71,7 +74,7 @@ namespace WpfBriscola.Models
                         await TaskCartaScelta.Task;
                         TaskCartaScelta = new TaskCompletionSource();
                         CarteGiocate++;
-                        Thread.Sleep(50);
+                       
                         CartaSceltaDalPc = GiocataPc(CartaScelta);
                         break;
                     case 1:
@@ -93,12 +96,12 @@ namespace WpfBriscola.Models
                     case 1:
                         turno = 0;
                         Giocatore1.Punti += punteggio;
-                        MessageBox.Show("Ha preso l'utente");
+                        await Task.Delay(TimeSpan.FromSeconds(2));
                         break;
                     case -1:
                         turno = 1;
                         Giocatore2.Punti += punteggio;
-                        MessageBox.Show("Ha preso il PC");
+                        await Task.Delay(TimeSpan.FromSeconds(2));
                         break;
                 }
 
@@ -110,7 +113,8 @@ namespace WpfBriscola.Models
                         controllerView.RimuoviCartaMazzo();
                 }
                
-                 controllerView.PulisciView();
+                controllerView.PulisciView();
+                controllerView.CambiaSfondoCarteRimanenti();
             }
 
             TaskPartita.SetResult();

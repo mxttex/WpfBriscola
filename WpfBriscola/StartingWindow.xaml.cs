@@ -23,6 +23,7 @@ namespace WpfBriscola
         public StartingWindow()
         {
             InitializeComponent();
+            sliderDifficoltà.Value = 0;
         }
 
         private void btnAvviaPartita_Click(object sender, RoutedEventArgs e)
@@ -42,6 +43,13 @@ namespace WpfBriscola
         {
             if((sender as TextBox).Text.Length > 0) btnAvviaPartita.IsEnabled = true;
             else btnAvviaPartita.IsEnabled = false; 
+        }
+
+        private void sliderDifficoltà_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int valSlider = int.Parse(Math.Round((sender as Slider).Value, 0).ToString());
+            GameValues.errP = (100 - valSlider);
+            GameValues.memP = valSlider;
         }
     }
 }

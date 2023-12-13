@@ -60,5 +60,10 @@ namespace WpfBriscola
             Window.Close();
         }
 
+        public void CambiaSfondoCarteRimanenti()
+        {
+            Window.SegnalaFineMazzo();
+        }
+
     }
 }

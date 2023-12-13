@@ -28,5 +28,11 @@
         </StackPanel>
 
         <Button Margin="35, 15" FontSize="25" Grid.Row="3" Grid.Column="1" Name="btnAvviaPartita" Click="btnAvviaPartita_Click">Avvia Partita</Button>
+        <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
+            <Label HorizontalAlignment="Center">Scelta Difficoltà</Label>
+            <Slider Name="sliderDifficoltà" Grid.Row="4" Grid.Column="1" ValueChanged="sliderDifficoltà_ValueChanged"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Minimum="0" Maximum="100"></Slider>
+        </StackPanel>
     </Grid>
+    
+       
 </Window>
