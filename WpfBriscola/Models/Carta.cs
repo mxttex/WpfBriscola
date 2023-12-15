@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,29 @@ namespace WpfBriscola.Models
         public Carta()
         {
             Path = string.Empty;
+        }
+        internal Carta(int numero, int seme, Semi sBriscola)
+        {
+            Numero = numero;
+
+            switch ((CarteSpeciali)Numero)
+            {
+                default:
+                    Punteggio = 0; break;
+                case CarteSpeciali.Asso:
+                    Punteggio = 11; break;
+                case CarteSpeciali.Tre:
+                    Punteggio = 10; break;
+                case CarteSpeciali.Re:
+                    Punteggio = 4; break;
+                case CarteSpeciali.Cavallo:
+                    Punteggio = 3; break;
+                case CarteSpeciali.Fante:
+                    Punteggio = 2; break;
+            }
+            SemeNumerico = (Semi)seme;
+            IsBriscola = (SemeNumerico == sBriscola) ? true : false;
+
         }
         public Carta(int numero, int seme)
         {
@@ -72,7 +96,7 @@ namespace WpfBriscola.Models
 
         public double CalcolaPesoConst()
         {
-            return coeffP * Punteggio + peroBrisc * (IsBriscola ? 0 : 1);
+            return coeffP * Punteggio + pesoBrisc * (IsBriscola ? 0 : 1);
         }
 
         internal void SettaBriscola()
@@ -127,8 +151,6 @@ namespace WpfBriscola.Models
             if (this.ToString() == other.ToString()) return true;
             else return false;
         }
-
-
 
         //overload per poter confrontare qual è il punteggio associato a quella carta
         public static bool operator <(Carta a, int valore)

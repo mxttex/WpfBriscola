@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
 {
@@ -20,7 +21,6 @@ namespace WpfBriscola.Models
         internal Models.Mazzo Mazzo { get; set; }
         internal Giocatore Giocatore1 { get; set; }
         internal AIGiocatore Giocatore2 { get; set; }
-        internal string SemeBriscola { get; set; }
         internal Carta BriscolaFinale { get; set; }
         internal int CarteGiocate { get; set; }
         internal Carta CartaScelta { get; set; }
@@ -33,14 +33,14 @@ namespace WpfBriscola.Models
         internal void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
         {
             Mazzo = new Mazzo();
-            SemeBriscola = PescaBriscola();
+            SemeBriscolaInGioco = PescaBriscola();
             Giocatore1 = new Giocatore(1, nomeGiocatore1, Mazzo);
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
             CarteGiocate = 0;
             Playing = true; //di default l'utente vuole fare una partita
         }
 
-        private string PescaBriscola()
+        private Semi PescaBriscola()
         {
             Carta c = Mazzo.PrimaCarta();
             Mazzo.ListaCarte.Add(c);
@@ -51,12 +51,12 @@ namespace WpfBriscola.Models
                     carta.SettaBriscola();
                     carta.CalcolaPesoConst();
                 }
-            return c.Seme;
+            return c.SemeNumerico;
         }
 
-        private Carta GiocataPc(Carta? carta)
+        private Carta GiocataPc(Carta? carta, int turno)
         {
-            Carta scelta = Giocatore2.Mossa(carta);
+            Carta scelta = Giocatore2.Mossa(carta, turno);
             CarteGiocate++;
             Giocatore2.Mano.Remove(scelta);
             controllerView.Aggiorna(scelta);

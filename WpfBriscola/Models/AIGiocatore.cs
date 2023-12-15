@@ -55,36 +55,34 @@ namespace WpfBriscola.Models
 
         private int CalcolaPesoCarta(Carta carta)
         {
-            int numeroCarteSuCuiVince;
+            int numeroCarteSuCuiVince = 0;
             if (carta.IsBriscola)
             {
-                
+                for (int seme = 0; seme < 4; seme++)
+                    for (int numero = 0; numero < 10; numero++)
+                        if (ProvaAVincere(numero, seme, carta) == true)
+                            numeroCarteSuCuiVince++;
             }
+            else
+            {
+                for (int numero = 0; numero < 10; numero++)
+                {
+                    if (ProvaAVincere(numero, (int)carta.SemeNumerico, carta) == true)
+                        numeroCarteSuCuiVince++;
+                }
+            }
+
+            return (int)Math.Round(carta.CalcolaPesoConst(), 0) + numeroCarteSuCuiVince;
         }
 
-        private bool ProvaAVincere(Carta cartaAvversario, out Carta CartaVincente)
+        private bool ProvaAVincere(int numero, int seme, Carta carta)
         {
-            
-            int ris = 0;
-            for (int i = 0; i < Mano.Count; i++)
-            {
-                if ((!Mano[i].IsBriscola) && (Mano[i].Seme != cartaAvversario.Seme))
-                {
-                    CartaVincente = Mano[i]; 
-                    return false;
-                }
-                   
+            if (this[numero, seme] == true) return false;
+            int vince = carta.CompareTo(new(numero, seme, SemeBriscolaInGioco));
 
-                //controllo se la carta non è una briscola
-                ris = Mano[i].CompareTo(cartaAvversario);
-                if (ris == 1)
-                {
-                    CartaVincente = Mano[i];
-                    return true;
-                }
-            }
-            CartaVincente = null;
-            return false;
+            if (vince == 1) return true;
+            else return false;
+
         }
 
         public bool this[int numero, int seme]
