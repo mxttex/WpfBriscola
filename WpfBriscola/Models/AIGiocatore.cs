@@ -10,41 +10,56 @@ namespace WpfBriscola.Models
     internal class AIGiocatore:Giocatore
     {
         internal bool[] CarteUscite { get; set; }
-        public AIGiocatore(int numero, string nome, Mazzo mazzo) :base(numero, nome, mazzo) { }
-
-        public Carta Mossa(Carta? cartaAvversario)
+        private Random Random { get; set; }
+        public AIGiocatore(int numero, string nome, Mazzo mazzo) :base(numero, nome, mazzo)
         {
-            Carta? CartaScelta;
             CarteUscite = new bool[40];
-            if (cartaAvversario is null) return CartaValoreMinimo();
-            if (ProvaAVincere(cartaAvversario, out CartaScelta)) return CartaScelta;
-            CartaScelta = CartaValoreMinimo();
-            return CartaScelta;
         }
 
+        public Carta Mossa(Carta? cartaAvversario, int turno)
+        {
+            Carta CartaScelta;
+            //if (cartaAvversario is null) return CartaValoreMinimo();
+            //if (ProvaAVincere(cartaAvversario, out CartaScelta)) return CartaScelta;
+            //CartaScelta = CartaValoreMinimo();
+            //return CartaScelta;
+            switch (turno)
+            {
+                case 0:
+                    break;
+                case 1:
+                    if ((new Random()).Next(0, 100) < errP) return GiocaCartaCasuale();
+                    return CartaValoreMinimo();
+            }
 
+            
+        }
+
+        private Carta GiocaCartaCasuale()
+        {
+            return Mano[(new Random()).Next(0, 3)];
+        }
 
         private Carta CartaValoreMinimo()
         {
-            int valoreMinimo = int.MaxValue;
-            int idx = 0;
-
-            for(int i =0; i<Mano.Count; i++)
+            int pesoMinimo = int.MaxValue;
+            Carta rit = new();
+            foreach (Carta carta in Mano)
             {
-                if (Mano[i] < valoreMinimo) valoreMinimo = Mano[i].Punteggio; idx = i;
+                int pes = CalcolaPesoCarta(carta);
+                if (pes < pesoMinimo) pesoMinimo = pes; rit = carta;
             }
 
-            if (valoreMinimo != 0) return Mano[idx];
+            return rit;
+        }
 
-            valoreMinimo = int.MaxValue;
-            idx = 0;
-
-            for (int i = 0; i < Mano.Count; i++)
+        private int CalcolaPesoCarta(Carta carta)
+        {
+            int numeroCarteSuCuiVince;
+            if (carta.IsBriscola)
             {
-                if (valoreMinimo < Mano[i]) valoreMinimo = Mano[i].Punteggio; idx = i;
+                
             }
-
-            return Mano[idx];
         }
 
         private bool ProvaAVincere(Carta cartaAvversario, out Carta CartaVincente)
@@ -72,7 +87,10 @@ namespace WpfBriscola.Models
             return false;
         }
 
-       
-
-    }
+        public bool this[int numero, int seme]
+        {
+            get => CarteUscite[seme * 10 + numero - 1];
+            set => CarteUscite[seme * 10 + numero - 1] = value;
+        }
+}
 }

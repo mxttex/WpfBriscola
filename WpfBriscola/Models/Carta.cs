@@ -14,6 +14,7 @@ namespace WpfBriscola.Models
         
         internal int Numero { get; set; }
         internal string Seme { get; set; }
+        internal Semi SemeNumerico { get; set; }
         internal string Path { get; set; }  
         internal int Punteggio { get; set; }
         internal bool IsBriscola { get; set; }
@@ -27,7 +28,9 @@ namespace WpfBriscola.Models
         {
             Numero = numero;
 
-            switch ((Semi)seme)
+            SemeNumerico = (Semi)seme;
+
+            switch (SemeNumerico)
             {
                 case Semi.Denara:
                     Seme = "denara";
