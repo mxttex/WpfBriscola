@@ -75,10 +75,10 @@ namespace WpfBriscola.Models
                         TaskCartaScelta = new TaskCompletionSource();
                         CarteGiocate++;
                        
-                        CartaSceltaDalPc = GiocataPc(CartaScelta);
+                        CartaSceltaDalPc = GiocataPc(CartaScelta, turno);
                         break;
                     case 1:
-                        CartaSceltaDalPc = GiocataPc(null);
+                        CartaSceltaDalPc = GiocataPc(null, turno);
                         await TaskCartaScelta.Task;
                         TaskCartaScelta = new TaskCompletionSource();
                         CarteGiocate++;

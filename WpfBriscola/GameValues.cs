@@ -26,10 +26,11 @@ namespace WpfBriscola
 
         public static int errP { get; set; }
         public static int memP { get; set; }
+        public static Semi SemeBriscolaInGioco { get; set; } 
         
         public const int minP = 2; 
         public const double coeffP = 1.9;
-        public const double peroBrisc = 0.2;
+        public const double pesoBrisc = 0.2;
 
     }
 }

@@ -23,16 +23,24 @@ namespace WpfBriscola.Models
             //if (ProvaAVincere(cartaAvversario, out CartaScelta)) return CartaScelta;
             //CartaScelta = CartaValoreMinimo();
             //return CartaScelta;
+            if ((new Random()).Next(0, 100) < errP) return GiocaCartaCasuale();
             switch (turno)
             {
                 case 0:
-                    break;
-                case 1:
-                    if ((new Random()).Next(0, 100) < errP) return GiocaCartaCasuale();
+                    Carta vincente = MigliorCartaVincente();
+                    if (vincente != null) return vincente;
                     return CartaValoreMinimo();
+                case 1:
+                    return CartaValoreMinimo();
+                default: return null;
             }
 
             
+        }
+
+        private Carta MigliorCartaVincente()
+        {
+            throw new NotImplementedException();
         }
 
         private Carta GiocaCartaCasuale()
