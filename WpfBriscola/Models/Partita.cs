@@ -24,6 +24,8 @@ namespace WpfBriscola.Models
         internal Carta BriscolaFinale { get; set; }
         internal int CarteGiocate { get; set; }
         internal Carta CartaScelta { get; set; }
+
+        private CarteDebug cd;
         internal Partita(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller)
         {
             controllerView = controller;
@@ -38,6 +40,7 @@ namespace WpfBriscola.Models
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
             CarteGiocate = 0;
             Playing = true; //di default l'utente vuole fare una partita
+            cd = new CarteDebug(Giocatore1, Giocatore2); cd.Show(); cd.AggiornaMano();
         }
 
         private Semi PescaBriscola()
@@ -105,7 +108,10 @@ namespace WpfBriscola.Models
                         break;
                 }
 
-                if(Mazzo.ListaCarte.Count > 0)
+                if (new Random().Next(0, 100) < memP) Giocatore2[CartaScelta.Numero, (int)CartaScelta.SemeNumerico] = true;
+                if (new Random().Next(0, 100) < memP) Giocatore2[CartaSceltaDalPc.Numero, (int)CartaSceltaDalPc.SemeNumerico] = true;
+
+                if (Mazzo.ListaCarte.Count > 0)
                 {
                     Giocatore1.RiempiMano();
                     Giocatore2.RiempiMano();
@@ -115,6 +121,7 @@ namespace WpfBriscola.Models
                
                 controllerView.PulisciView();
                 controllerView.CambiaSfondoCarteRimanenti();
+                cd.AggiornaMano();
             }
 
             TaskPartita.SetResult();
@@ -158,11 +165,11 @@ namespace WpfBriscola.Models
             switch (turno)
             {
                 case 0:
-                    if ((utente.Seme != pc.Seme) && !(pc.IsBriscola)) return 1;
+                    if ((utente.Seme != pc.Seme) && !(pc.IsBriscola)) { controllerView.Animazione(); return 1; }
                     break;
 
                 case 1:
-                    if (pc.Seme != utente.Seme && !(utente.IsBriscola)) return -1;
+                    if (pc.Seme != utente.Seme && !(utente.IsBriscola)) { controllerView.Animazione(); return -1; }
                     break;
             }
             return utente.CompareTo(pc);

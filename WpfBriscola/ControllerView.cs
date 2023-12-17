@@ -23,6 +23,7 @@ namespace WpfBriscola
 
         public void RicostruisciWindow()
         {
+
             PulisciView();
             RicaricaBottoni();
             Window.RicaricaBriscola();
@@ -63,6 +64,11 @@ namespace WpfBriscola
         public void CambiaSfondoCarteRimanenti()
         {
             Window.SegnalaFineMazzo();
+        }
+
+        public void Animazione()
+        {
+            Window.AnimazioneCarte(0);
         }
 
     }
