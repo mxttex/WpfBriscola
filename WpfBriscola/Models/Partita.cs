@@ -13,8 +13,8 @@ namespace WpfBriscola.Models
 
     public class Partita
     {
-        private TaskCompletionSource TaskCartaScelta = new TaskCompletionSource();
-        private TaskCompletionSource TaskPartita = new TaskCompletionSource();
+        private TaskCompletionSource TaskCartaScelta = new();
+        private TaskCompletionSource TaskPartita = new();
 
         internal ControllerView controllerView { private get; set; }
         private bool Playing { get; set; }
@@ -75,15 +75,14 @@ namespace WpfBriscola.Models
                 {
                     case 0:
                         await TaskCartaScelta.Task;
-                        TaskCartaScelta = new TaskCompletionSource();
+                        TaskCartaScelta = new();
                         CarteGiocate++;
-                       
                         CartaSceltaDalPc = GiocataPc(CartaScelta, turno);
                         break;
                     case 1:
                         CartaSceltaDalPc = GiocataPc(null, turno);
                         await TaskCartaScelta.Task;
-                        TaskCartaScelta = new TaskCompletionSource();
+                        TaskCartaScelta = new();
                         CarteGiocate++;
                         break;
                 }

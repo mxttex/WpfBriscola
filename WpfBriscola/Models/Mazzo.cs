@@ -50,7 +50,7 @@ namespace WpfBriscola.Models
             List<Carta> carte = CreaMazzo();
             return MischiaCarte(carte); 
         }
-
+        
         internal Carta PrimaCarta()
         {
             Carta c = ListaCarte[0];
@@ -62,13 +62,11 @@ namespace WpfBriscola.Models
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            foreach(Carta carta in ListaCarte)
+            foreach (Carta carta in ListaCarte)
                 stringBuilder.AppendLine(carta.ToString());
 
             return stringBuilder.ToString();
 
         }
-
-
     }
 }

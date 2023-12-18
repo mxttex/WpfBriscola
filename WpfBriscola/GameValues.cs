@@ -28,7 +28,7 @@ namespace WpfBriscola
         public static int memP { get; set; }
         public static Semi SemeBriscolaInGioco { get; set; }
         
-        public const int SogliaValoreCarta = 10;
+        public const int SogliaValoreCarta = 3;
         public const int minP = 2; 
         public const double coeffP = 1.9;
         public const double pesoBrisc = 0.2;

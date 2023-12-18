@@ -43,8 +43,25 @@ namespace WpfBriscola.Models
                 {
                     if (possibileVincitrice.Punteggio >= valCartaVincente)
                     {
-                        valCartaVincente = possibileVincitrice.Punteggio;
-                        cartaVincente = possibileVincitrice;
+                        if (cartaVincente == null)
+                        {
+                            valCartaVincente = possibileVincitrice.Punteggio;
+                            cartaVincente = possibileVincitrice;
+                        }
+                        else if (cartaVincente.IsBriscola && possibileVincitrice.IsBriscola)
+                        {
+                            if (possibileVincitrice.Punteggio < cartaVincente.Punteggio)
+                            {
+                                valCartaVincente = possibileVincitrice.Punteggio;
+                                cartaVincente = possibileVincitrice;
+                            }
+                        }
+                        else
+                        {
+                            valCartaVincente = possibileVincitrice.Punteggio;
+                            cartaVincente = possibileVincitrice;
+                        }
+                       
                     }
                 }
             }
@@ -64,8 +81,8 @@ namespace WpfBriscola.Models
             foreach (Carta carta in Mano)
             {
                 //controllo se la carta non è un tre o un due e che il pc nella mano non abbia solo 3 o assi
-                bool tuttiTreoAssi = (Mano[0].Punteggio < SogliaValoreCarta && Mano[1].Punteggio < SogliaValoreCarta && Mano[2].Punteggio < SogliaValoreCarta);
-                if (carta.Punteggio < SogliaValoreCarta || tuttiTreoAssi)
+                
+                if (carta.Punteggio < SogliaValoreCarta || CarteValoreAlto())
                 {
                     double pes = CalcolaPesoCarta(carta);
                     if (pes < pesoMinimo) { pesoMinimo = pes; rit = carta; }
@@ -76,7 +93,18 @@ namespace WpfBriscola.Models
 
             return rit;
         }
-
+        private bool CarteValoreAlto()
+        {
+            bool output = true;
+            for (int i = 0; i < Mano.Count && output == false; i++)
+            {
+                if (Mano[i].Punteggio < SogliaValoreCarta)
+                {
+                    output = false;
+                }
+            }
+            return output;
+        }
         private double CalcolaPesoCarta(Carta carta)
         {
             int numeroCarteSuCuiVince = 0;
@@ -111,6 +139,7 @@ namespace WpfBriscola.Models
 
         private bool ProvaAVincere(Carta c1, Carta? c2)
         {
+            if((c2.Seme != c1.Seme) && !c1.IsBriscola) return false;
             int vince = c1.CompareTo(c2);
 
             if (vince == 1) return true;
