@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         ResizeMode="NoResize"
-        Title="La Briscola" Height="500" Width="800" >
-    <Grid>
+        Title="La Briscola" Height="505" Width="800" >
+    <Grid Name="BackGround">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.55*"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -46,19 +46,23 @@
 
         </StackPanel>
 
-        <Canvas Name="BackGround" Grid.Column="2" Grid.Row="2">
-            <Image Name="imgBriscola" Width="57" Height="79" Grid.Column="2" Grid.Row="2" RenderTransformOrigin="0.5,0.5" Margin="94,23,116,26">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
-            <Image Name="imgCartaTopMazzo" Grid.Row="2" Grid.Column="2" Width="57" Height="79" Margin="115,15,95,28" Source="..\carte\legend.png"></Image>
-        </Canvas>
+        <Image Name="imgBriscola" Width="53" Height="75" Grid.Column="2" Grid.Row="2" RenderTransformOrigin="0.5,0.5" Margin="94,20,116,26">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Name="imgCartaTopMazzo" Grid.Row="2" Grid.Column="2" Width="53" Height="75" Margin="115,10,95,28" Source="carte\legend.png"></Image>
+        <Image Grid.Row="4"  Width="57" Height="79" Visibility="Hidden" Name="imgMazzoG1" Source="\carte\legend.png"></Image>
+        <Image Grid.Column="4" Grid.Row="1"  Width="57" Height="79" Visibility="Hidden" Name="imgMazzoG2" Source="\carte\legend.png"></Image>
+        <Canvas Grid.ColumnSpan="3" Grid.RowSpan="4">
+            <Image Visibility="Collapsed" Name="CartaDaMuovere" Source="\carte\legend.png" Margin="380, 225" Width="57" Height="79"></Image>
 
+        </Canvas>
+        <TextBlock Grid.Row="2" Name="tbkAggiornamenti" FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="4"></TextBlock>
     </Grid>
 </Window>

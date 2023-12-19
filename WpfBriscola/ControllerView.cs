@@ -23,12 +23,12 @@ namespace WpfBriscola
 
         public void RicostruisciWindow()
         {
-
+            Window.ResettaTextBlock();
             PulisciView();
             RicaricaBottoni();
             Window.RicaricaBriscola();
             CaricaBriscola();
-
+            Window.NascondiMazziGiocatori();
         }
 
         public void PulisciView()
@@ -66,10 +66,14 @@ namespace WpfBriscola
             Window.SegnalaFineMazzo();
         }
 
-        public void Animazione()
+        public void Animazione(int vincitore, TaskCompletionSource task)
         {
-            Window.AnimazioneCarte(0);
+            Window.AnimazioneCarte(vincitore, task);
         }
 
+        internal void VisulizzaVincitore(string message)
+        {
+            Window.ScriviVincitore(message);
+        }
     }
 }

@@ -13,8 +13,9 @@ namespace WpfBriscola.Models
 
     public class Partita
     {
-        private TaskCompletionSource TaskCartaScelta = new();
-        private TaskCompletionSource TaskPartita = new();
+        private TaskCompletionSource TaskCartaScelta;
+        private TaskCompletionSource TaskPartita;
+        private TaskCompletionSource Animazione;
 
         internal ControllerView controllerView { private get; set; }
         private bool Playing { get; set; }
@@ -24,11 +25,13 @@ namespace WpfBriscola.Models
         internal Carta BriscolaFinale { get; set; }
         internal int CarteGiocate { get; set; }
         internal Carta CartaScelta { get; set; }
-
-        private CarteDebug cd;
+ 
         internal Partita(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller)
         {
             controllerView = controller;
+            TaskCartaScelta = new();
+            TaskPartita = new();
+            Animazione = new();
             InizializzaPartita(nomeGiocatore1, nomeGiocatore2);
 
         }
@@ -40,7 +43,7 @@ namespace WpfBriscola.Models
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
             CarteGiocate = 0;
             Playing = true; //di default l'utente vuole fare una partita
-            cd = new CarteDebug(Giocatore1, Giocatore2); cd.Show(); cd.AggiornaMano();
+                            
         }
 
         private Semi PescaBriscola()
@@ -112,15 +115,28 @@ namespace WpfBriscola.Models
 
                 if (Mazzo.ListaCarte.Count > 0)
                 {
-                    Giocatore1.RiempiMano();
-                    Giocatore2.RiempiMano();
+                    if (vincitore == 1)
+                    {
+                        Giocatore1.RiempiMano();
+                        Giocatore2.RiempiMano();
+                    }
+                    else
+                    {
+                        Giocatore2.RiempiMano();
+                        Giocatore1.RiempiMano();
+                    }
+                    
                     if (Mazzo.ListaCarte.Count == 0)
+                    {
+
                         controllerView.RimuoviCartaMazzo();
+                    }
                 }
-               
+                controllerView.Animazione(vincitore, Animazione);
+                await Animazione.Task;
+                Animazione = new();
                 controllerView.PulisciView();
                 controllerView.CambiaSfondoCarteRimanenti();
-                cd.AggiornaMano();
             }
 
             TaskPartita.SetResult();
@@ -144,7 +160,7 @@ namespace WpfBriscola.Models
                 await TaskPartita.Task;
                 TaskPartita = new TaskCompletionSource();
 
-                VisualizzaMessageBoxVincitore();
+                controllerView.VisulizzaVincitore(VisualizzaMessagioVincitore());
                 if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
                     Playing = false;
                 else InizializzaPartita(Giocatore1.Nome, Giocatore2.Nome); controllerView.RicostruisciWindow();
@@ -164,18 +180,18 @@ namespace WpfBriscola.Models
             switch (turno)
             {
                 case 0:
-                    if ((utente.Seme != pc.Seme) && !(pc.IsBriscola)) { controllerView.Animazione(); return 1; }
+                    if ((utente.Seme != pc.Seme) && !(pc.IsBriscola)) { return 1; }
                     break;
 
                 case 1:
-                    if (pc.Seme != utente.Seme && !(utente.IsBriscola)) { controllerView.Animazione(); return -1; }
+                    if (pc.Seme != utente.Seme && !(utente.IsBriscola)) { return -1; }
                     break;
             }
             return utente.CompareTo(pc);
             
         }
 
-        private void VisualizzaMessageBoxVincitore()
+        private string VisualizzaMessagioVincitore()
         {
             StringBuilder sb = new();
             int differenzaPunti = Giocatore1.Punti - Giocatore2.Punti;
@@ -190,7 +206,7 @@ namespace WpfBriscola.Models
             sb.AppendLine($"Punti fatti da {Giocatore1} = {Giocatore1.Punti}");
             sb.AppendLine($"Punti fatti da {Giocatore2} = {Giocatore2.Punti}");
 
-            MessageBox.Show(sb.ToString(), "Risultato", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            return sb.ToString();
         }
 
     }

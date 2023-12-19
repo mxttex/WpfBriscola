@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using WpfBriscola.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Windows.Controls.Image;
+using static WpfBriscola.GameValues;
 
 namespace WpfBriscola
 {
@@ -29,10 +30,13 @@ namespace WpfBriscola
     /// 
     public partial class MainWindow : Window
     {
-         
+
         public Partita Partita { get; set; }
         private ControllerView controllerView { get; set; }
-        
+        public int PreseG1 { get; set; }
+        public int PreseG2 {get; set; }
+        private int CarteGiocate { get; set; }
+
         public MainWindow(string namePlayerOne)
         {
             InitializeComponent();
@@ -58,11 +62,12 @@ namespace WpfBriscola
                 Image im1 = new Image();
                 im1.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[0].Path, UriKind.Relative));
                 btnCartaMazzo1.Content = im1;
+                imgCartaPc1.Visibility = Visibility.Visible;
 
             }
             catch (Exception)
             {
-                btnCartaMazzo1.Visibility = Visibility.Collapsed;
+                btnCartaMazzo1.Visibility= imgCartaPc1.Visibility = Visibility.Collapsed;
             }
 
             try
@@ -70,11 +75,12 @@ namespace WpfBriscola
                 Image im2 = new Image();
                 im2.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[1].Path, UriKind.Relative));
                 btnCartaMazzo2.Content = im2;
+                imgCartaPc2.Visibility = Visibility.Visible;
 
             }
             catch (Exception)
             {
-                btnCartaMazzo2.Visibility = Visibility.Collapsed;
+                btnCartaMazzo2.Visibility = imgCartaPc2.Visibility = Visibility.Collapsed;
             }
 
             try
@@ -82,11 +88,12 @@ namespace WpfBriscola
                 Image im3 = new Image();
                 im3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
                 btnCartaMazzo3.Content = im3;
-
+                imgCartaPc3.Visibility = Visibility.Visible;
+                
             }
             catch (Exception)
             {
-                btnCartaMazzo3.Visibility = Visibility.Collapsed;
+                btnCartaMazzo3.Visibility = imgCartaPc3.Visibility =Visibility.Collapsed;
             }
 
             //Assegno il contenuto dei bottoni a quelle immagini
@@ -103,7 +110,8 @@ namespace WpfBriscola
         public void PulisciTavolo()
         {
             imgCartaTavolo1.Source = imgCartaTavolo2.Source = null;
-            
+            imgCartaTavolo1.Visibility = imgCartaTavolo2.Visibility = Visibility.Visible;
+
         }
 
         public void AttivaBottoni()
@@ -129,13 +137,12 @@ namespace WpfBriscola
         {
             imgCartaTavolo1.Source = new BitmapImage(new Uri(Utente.Path, UriKind.Relative));
             imgCartaTavolo2.Source = new BitmapImage(new Uri(Pc.Path, UriKind.Relative));
-
         }
 
         internal void CaricaCartaPC(Carta C)
         {
-            //imgCartaTavolo2 = new Image();
             imgCartaTavolo2.Source = new BitmapImage(new Uri(C.Path, UriKind.Relative));
+            if (Partita.CarteGiocate == 40) imgCartaPc1.Visibility = Visibility.Collapsed;
         }
 
         internal void RimuoviBriscola()
@@ -148,19 +155,68 @@ namespace WpfBriscola
         }
         internal void SegnalaFineMazzo()
         {
-            //if (Partita.Mazzo.ListaCarte.Count == 4)
-            //{
-            //    BackGround.Background = Brushes.Green;
-            //}
-            //if (Partita.Mazzo.ListaCarte.Count == 2)
-            //{
-            //    BackGround.Background = Brushes.Red;
-            //}
-            //else BackGround.Background = Brushes.White;
+            if (Partita.Mazzo.ListaCarte.Count == 2){ tbkAggiornamenti.Text = "Ultime due carte nel mazzo"; return; }
+            if (Partita.Mazzo.ListaCarte.Count == 4) tbkAggiornamenti.Text = "Ultime quattro carte nel mazzo";
+            else ResettaTextBlock();
+            
         }
 
-        internal void AnimazioneCarte(int vincitore)
-        { 
+        internal void ScriviVincitore(string msg)
+        {
+            tbkAggiornamenti.Text = msg;
+        }
+
+        internal void ResettaTextBlock()
+        {
+            tbkAggiornamenti.Text = string.Empty;
+        }
+        internal void NascondiMazziGiocatori()
+        {
+            PreseG1 = PreseG2 = 0;
+            imgMazzoG1.Visibility = imgMazzoG2.Visibility = Visibility.Hidden;
+        }
+
+        internal void AnimazioneCarte(int vincitore, TaskCompletionSource task)
+        {
+            double margineX = (vincitore != 1 ? DX : SX);
+            double margineY = (vincitore != 1 ? DY : SY);
+            if (vincitore == 1) PreseG1++;
+            else PreseG2++;
+            
+
+            Thread ts = new Thread(new ThreadStart(() =>
+            {
+                Thickness marginiOriginali;
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    imgCartaTavolo1.Visibility = imgCartaTavolo2.Visibility = Visibility.Hidden;
+                    CartaDaMuovere.Visibility = Visibility.Visible;
+                    marginiOriginali = CartaDaMuovere.Margin;
+                }));
+                for (int i = 0; i < 21; i++) 
+                {
+                    Thread.Sleep(35);
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        Thickness margini = CartaDaMuovere.Margin;
+                        margini.Left += margineX;
+                        margini.Top += margineY;
+                        CartaDaMuovere.Margin = margini;
+                    }));
+                   
+                }
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    Thread.Sleep(500);
+                    CartaDaMuovere.Visibility = Visibility.Collapsed;
+                    CartaDaMuovere.Margin = marginiOriginali;
+                    if(PreseG1 > 0) imgMazzoG1.Visibility = Visibility.Visible;
+                    if (PreseG2 > 0) imgMazzoG2.Visibility = Visibility.Visible;
+                }));
+                task.SetResult();
+
+            }));
+            ts.Start();
         }
     }
 }

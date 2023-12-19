@@ -32,10 +32,10 @@ namespace WpfBriscola
         public const int minP = 2; 
         public const double coeffP = 1.9;
         public const double pesoBrisc = 0.2;
-        public const int DX = 10;
-        public const int DY = -5;
-        public const int SX = -10;
-        public const int SY = 5;
+        public const double DX = 12.2;
+        public const double DY = -6.3;
+        public const double SX = -13.9;
+        public const double SY = 6.8;
 
     }
 }

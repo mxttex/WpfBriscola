@@ -41,7 +41,7 @@ namespace WpfBriscola.Models
                 bool vince = ProvaAVincere(possibileVincitrice, carta);
                 if (vince)
                 {
-                    if (possibileVincitrice.Punteggio >= valCartaVincente)
+                    if ((possibileVincitrice.Punteggio >= valCartaVincente && carta.Punteggio >= SogliaValoreCarta))
                     {
                         if (cartaVincente == null)
                         {

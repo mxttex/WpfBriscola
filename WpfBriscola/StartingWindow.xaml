@@ -24,7 +24,7 @@
         <Label Grid.Row="0" Grid.ColumnSpan="3" Background="Orange" FontSize="28" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic">BRISCOLA</Label>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
             <Label>Inserire Il Nome Del Giocatore:</Label>
-            <TextBox Name="txtNomeGiocatore" TextChanged="txtNomeGiocatore_TextChanged" Width="290" Height="23" VerticalAlignment="Top"></TextBox>
+            <TextBox Margin="0, 3" Name="txtNomeGiocatore" TextChanged="txtNomeGiocatore_TextChanged" Width="290" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
         </StackPanel>
 
         <Button Margin="35, 15" FontSize="25" Grid.Row="3" Grid.Column="1" Name="btnAvviaPartita" Click="btnAvviaPartita_Click">Avvia Partita</Button>
