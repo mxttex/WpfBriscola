@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace WpfBriscola
 {
@@ -38,6 +40,10 @@ namespace WpfBriscola
         public const double SY = 6.8;
 
         //variabili per online
-        public const int Port = 50752;  
+        public const int Port = 50752;
+
+        //messaggioDiRichiestaConnessione
+        public const string StringaRichiestaDiConnessione = ("richiestaConnessione");
+        public static IPAddress OtherPlayerIp = null;
     }
 }
