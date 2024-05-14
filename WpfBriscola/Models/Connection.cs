@@ -57,12 +57,13 @@ namespace WpfBriscola.Models
             {
                 SenderSocket.SendTo(bufferCarta, Receiver);
                 return true;
-            }catch(Exception e)
+            }
+            catch(Exception)
             {
                 return false;
             }
         }
-        public Task<Carta> ReceiveCard(object sender, EventArgs e)
+        public async Task<Carta?> ReceiveCard(object sender, EventArgs e)
         {
             int nrBytes;
             if ((nrBytes = SenderSocket.Available) > 0)
@@ -72,8 +73,8 @@ namespace WpfBriscola.Models
                 SenderSocket.ReceiveFrom(buffer, ref receiver);
 
                 return new Carta(Encoding.UTF8.GetString(buffer, 0, nrBytes));
-                //da risolvere
             }
+            return null;
         }
 
     }

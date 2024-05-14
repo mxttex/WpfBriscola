@@ -20,11 +20,13 @@ namespace WpfBriscola.Models
         internal int Punteggio { get; set; }
         internal bool IsBriscola { get; set; }
         internal double PesoConst { get; set; }
+        
         public Carta(string path)
         {
-           //da creare l'overload
-
+            //da creare l'overload
+            ConvertFromPathToValues(path);
         }
+
         public Carta()
         {
             Path = string.Empty;
@@ -138,6 +140,60 @@ namespace WpfBriscola.Models
 
             return ritorno + this.Seme;
         }
+        private void ConvertFromPathToValues(string path)
+        {
+            char seme = path[1];
+            string val;
+            if(path.Length != 5)
+            {
+                 val = path[3].ToString();
+            }
+            else
+            {
+                val = path[3].ToString() + path[4];
+            }
+
+            switch (seme)
+            {
+                case 'b':
+                    Seme = "bastoni";
+                    SemeNumerico = Semi.Bastoni; 
+                    break;
+                case 'c':
+                    Seme = "coppe";
+                    SemeNumerico = Semi.Coppe;
+                    break;
+                case 'd':
+                    Seme = "denara";
+                    SemeNumerico = Semi.Denara;
+                    break;
+                case 's':
+                    Seme = "spade";
+                    SemeNumerico = Semi.Spade;
+                    break;
+            }
+            this.Numero = int.Parse(val);
+
+            switch ((CarteSpeciali)Numero)
+            {
+                default:
+                    Punteggio = 0; break;
+                case CarteSpeciali.Asso:
+                    Punteggio = 11; break;
+                case CarteSpeciali.Tre:
+                    Punteggio = 10; break;
+                case CarteSpeciali.Re:
+                    Punteggio = 4; break;
+                case CarteSpeciali.Cavallo:
+                    Punteggio = 3; break;
+                case CarteSpeciali.Fante:
+                    Punteggio = 2; break;
+            }
+
+            IsBriscola = false;
+            PesoConst = CalcolaPesoConst();
+        }
+
 
         public int CompareTo(Carta? other)
         {

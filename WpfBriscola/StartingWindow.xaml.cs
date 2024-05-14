@@ -51,16 +51,6 @@ namespace WpfBriscola
             int valSlider = int.Parse(Math.Round((sender as Slider).Value, 0).ToString());
             GameValues.errP = (100 - valSlider);
             GameValues.memP = valSlider;
-        }
-        public void ListenForConnection()
-        {
-            EndPoint receiver = new IPEndPoint;
-            int nrBytes;
-
-            if ((nrBytes = SenderSocket.Available) > 0)
-            {
-                byte[] buffer =
-            }
-        }
+        } 
     }
 }

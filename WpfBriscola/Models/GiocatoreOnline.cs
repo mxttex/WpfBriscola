@@ -22,27 +22,27 @@ namespace WpfBriscola.Models
         {
             
             Connessione = new();
-            TryToConnect();
+            //TryToConnect();
             
         }
 
-        private async void TryToConnect()
-        {
-            byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
-            SenderSocket.SendTo(messaggio, ReceiverEndpoint);
+        //private async void TryToConnect()
+        //{
+        //    byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
+        //    SenderSocket.SendTo(messaggio, ReceiverEndpoint);
 
-            var connectedOrTimeout = new List<Task> { Connessione.Task, Task.Delay(TimeSpan.FromSeconds(30)) };
-            Task task = Task.WhenAny(connectedOrTimeout);
+        //    var connectedOrTimeout = new List<Task> { Connessione.Task, Task.Delay(TimeSpan.FromSeconds(30)) };
+        //    Task task = Task.WhenAny(connectedOrTimeout);
 
-            if(task == Connessione.Task)
-            {
-                Connected = true;
-            }
-            else
-            {
-                throw new Exception("Richiesta Di Connessione Scaduta");
-            }
-        }
+        //    if(task == Connessione.Task)
+        //    {
+        //        Connected = true;
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("Richiesta Di Connessione Scaduta");
+        //    }
+        //}
 
         
     }
