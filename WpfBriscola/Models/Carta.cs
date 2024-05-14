@@ -20,7 +20,11 @@ namespace WpfBriscola.Models
         internal int Punteggio { get; set; }
         internal bool IsBriscola { get; set; }
         internal double PesoConst { get; set; }
+        public Carta(string path)
+        {
+           //da creare l'overload
 
+        }
         public Carta()
         {
             Path = string.Empty;
