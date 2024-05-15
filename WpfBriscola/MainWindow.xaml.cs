@@ -37,11 +37,12 @@ namespace WpfBriscola
         public int PreseG2 {get; set; }
         private int CarteGiocate { get; set; }
 
-        public MainWindow(string namePlayerOne)
+        public MainWindow(string namePlayerOne, bool mode)
         {
             InitializeComponent();
             controllerView = new(this);
-            Partita = new Partita(namePlayerOne, "pc", controllerView);
+            Partita = mode ? new PartitaOnline(namePlayerOne, "remote", controllerView): new Partita(namePlayerOne, "pc", controllerView);
+            
             
         }
 

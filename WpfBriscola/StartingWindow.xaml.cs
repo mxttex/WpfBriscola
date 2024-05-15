@@ -29,7 +29,9 @@ namespace WpfBriscola
 
         private void btnAvviaPartita_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mw = new MainWindow(txtNomeGiocatore.Text);
+            
+            bool mode = ((Button)sender).Name.Substring(15) == "Online" ? true : false;
+            MainWindow mw = new MainWindow(txtNomeGiocatore.Text, online);
             mw.Show();
             this.Close();
         }
@@ -51,6 +53,11 @@ namespace WpfBriscola
             int valSlider = int.Parse(Math.Round((sender as Slider).Value, 0).ToString());
             GameValues.errP = (100 - valSlider);
             GameValues.memP = valSlider;
-        } 
+        }
+
+        private void txtIp_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

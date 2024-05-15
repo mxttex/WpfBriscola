@@ -21,7 +21,7 @@ namespace WpfBriscola.Models
         internal bool Playing { get; set; }
         internal Models.Mazzo Mazzo { get; set; }
         internal Giocatore Giocatore1 { get; set; }
-        internal Giocatore Giocatore2 { get; set; }
+        internal AIGiocatore Giocatore2 { get; set; }
         internal Carta BriscolaFinale { get; set; }
         internal int CarteGiocate { get; set; }
         internal Carta CartaScelta { get; set; }

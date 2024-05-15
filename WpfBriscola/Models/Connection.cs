@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static WpfBriscola.GameValues;
+using System.Windows;
 
 namespace WpfBriscola.Models
 {
@@ -52,8 +53,12 @@ namespace WpfBriscola.Models
                 {
                     AlreadyConnected = true;
                     WaitForConnection.SetResult();
+                    MainWindow mw = new MainWindow("giocatore", true); Application.Current.Shutdown(); mw.Show();
+                   
                 }
             }
+
+           
         }
 
         public bool SendCard(Carta c)
