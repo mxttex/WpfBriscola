@@ -56,8 +56,8 @@ namespace WpfBriscola
         }
 
         private void txtIp_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+        { 
+            btnAvviaPartitaOnline.IsEnabled = txtIp.Text.Length == 0 ? false : true;     
         }
     }
 }

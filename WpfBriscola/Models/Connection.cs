@@ -119,12 +119,13 @@ namespace WpfBriscola.Models
             }
         }
 
-        public async Task SendDeck(Mazzo mazzo)
+        public void SendDeck(Mazzo mazzo)
         {
             foreach(Carta c in mazzo.ListaCarte)
             {
                 SendCard(c);
             }
+            WaitForDeck.SetResult();
         }
     }
 }

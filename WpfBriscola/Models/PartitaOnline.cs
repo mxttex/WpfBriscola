@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
@@ -32,7 +33,8 @@ namespace WpfBriscola.Models
                 OnlineSettings.GrandezzaMazzo = 40;
                 Mazzo = new Mazzo();
                 InizializzaPartitaPartiInComune(nomeGiocatore1, nomeGiocatore2);
-                await OnlineSettings.SendDeck(Mazzo);
+                OnlineSettings.SendDeck(Mazzo);
+                await OnlineSettings.WaitForDeck.Task;
             }
         }
 
@@ -135,7 +137,21 @@ namespace WpfBriscola.Models
 
         public async override void StartPlaying()
         {
+            await OnlineSettings.WaitForDeck.Task;
+            controllerView.CaricaBriscola();
+
+            CarteGiocate = 0;
             GameLoop();
+
+            await TaskPartita.Task;
+            TaskPartita = new TaskCompletionSource();
+
+            controllerView.VisulizzaVincitore(VisualizzaMessagioVincitore());
+            if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                Playing = false;
+            else InizializzaPartita(Giocatore1.Nome, Giocatore2.Nome); controllerView.RicostruisciWindow();
+
+            controllerView.SwitchaFinestra();
         }
     }
 }
