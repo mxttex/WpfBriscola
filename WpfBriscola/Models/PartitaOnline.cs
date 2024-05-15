@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -137,6 +138,8 @@ namespace WpfBriscola.Models
 
         public async override void StartPlaying()
         {
+            await OnlineSettings.TryToConnect(OtherPlayerIp);
+
             await OnlineSettings.WaitForDeck.Task;
             controllerView.CaricaBriscola();
 

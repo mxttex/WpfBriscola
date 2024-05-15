@@ -100,7 +100,7 @@ namespace WpfBriscola.Models
             }
         }
 
-        public async void TryToConnect(IPAddress ip)
+        public async Task TryToConnect(IPAddress ip)
         {
             byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
             Receiver = new IPEndPoint(ip, Port);

@@ -32,7 +32,7 @@
             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Avvia Partita Contro IA</TextBlock>
         </Button>
         
-        <Button Margin="35, 15" FontSize="25" Grid.Row="3" Grid.Column="2" Name="btnAvviaPartitaOnline" Click="btnAvviaPartita_Click">
+        <Button Margin="35, 15" FontSize="25" Grid.Row="3" Grid.Column="2" Name="btnAvviaPartitaOnline" Click="btnAvviaPartita_Click" IsEnabled="False">
             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Avvia Partita In Locale</TextBlock>
         </Button>
         <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
