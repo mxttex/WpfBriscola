@@ -9,8 +9,9 @@ namespace WpfBriscola.Models
 {
     internal class PartitaOnline : Partita
     {
-        public PartitaOnline(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller) :base(nomeGiocatore1, nomeGiocatore2, controller)
+        public PartitaOnline(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller) :base()
         {
+            Giocatore1 = new Giocatore(nomeGiocatore1);
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
         }
 
@@ -44,6 +45,16 @@ namespace WpfBriscola.Models
         {
             int turno = OnlineSettings.PrincipalHost ? 0:1;
             Carta CartaSceltaDalPc = new();
+            if(turno == 0)
+            {
+                Giocatore1.RiempiMano();
+                Giocatore2.RiempiMano();
+            }
+            else
+            {
+                Giocatore2.RiempiMano();
+                Giocatore1.RiempiMano();
+            }
             while (CarteGiocate < 40)
             {
                 switch (turno)

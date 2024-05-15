@@ -20,7 +20,8 @@ namespace WpfBriscola.Models
             Nome = nome;
             Mazzo = mazzo;
             Mano = new List<Carta>();
-            RiempiMano();
+            if(Mazzo != null) 
+                RiempiMano();
         }
 
         public void RiempiMano()

@@ -35,6 +35,11 @@ namespace WpfBriscola.Models
             InizializzaPartita(nomeGiocatore1, nomeGiocatore2);
 
         }
+
+        public Partita()
+        {
+            TaskCartaScelta = new();  TaskPartita = new();  Animazione = new();
+        }
         internal virtual void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
         {
             Mazzo = new Mazzo();
