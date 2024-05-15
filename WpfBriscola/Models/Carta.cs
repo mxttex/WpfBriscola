@@ -142,15 +142,15 @@ namespace WpfBriscola.Models
         }
         private void ConvertFromPathToValues(string path)
         {
-            char seme = path[1];
+            char seme = path[10];
             string val;
             if(path.Length != 5)
             {
-                 val = path[3].ToString();
+                 val = path[12].ToString();
             }
             else
             {
-                val = path[3].ToString() + path[4];
+                val = path[12].ToString() + path[13];
             }
 
             switch (seme)

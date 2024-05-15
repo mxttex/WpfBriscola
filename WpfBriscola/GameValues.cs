@@ -39,8 +39,10 @@ namespace WpfBriscola
         public const double SX = -13.9;
         public const double SY = 6.8;
 
+
         //variabili per online
         public const int Port = 50752;
+        
 
         //messaggioDiRichiestaConnessione
         public const string StringaRichiestaDiConnessione = ("richiestaConnessione");

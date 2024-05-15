@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfBriscola.Models;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace WpfBriscola
 {
@@ -25,6 +27,15 @@ namespace WpfBriscola
         {
             InitializeComponent();
             sliderDifficoltà.Value = 0;
+            ListenForConnection();
+        }
+
+        private void ListenForConnection()
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(WpfBriscola.GameValues.OnlineSettings.ListenForConnection);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
+            timer.Start();
         }
 
         private void btnAvviaPartita_Click(object sender, RoutedEventArgs e)

@@ -24,7 +24,7 @@ namespace WpfBriscola.Models
             if (!OnlineSettings.AlreadyConnected)
             {
                 await OnlineSettings.WaitForDeck.Task;
-                Mazzo = new(OnlineSettings.Mazzo);
+                Mazzo = new();
                 InizializzaPartitaPartiInComune(nomeGiocatore1, nomeGiocatore2);
                 OnlineSettings.PrincipalHost = false;
             }
@@ -50,6 +50,7 @@ namespace WpfBriscola.Models
         {
             int turno = OnlineSettings.PrincipalHost ? 0:1;
             Carta CartaSceltaDalPc = new();
+            await OnlineSettings.WaitForDeck.Task;
             if(turno == 0)
             {
                 Giocatore1.RiempiMano();
@@ -141,6 +142,8 @@ namespace WpfBriscola.Models
             await OnlineSettings.TryToConnect(OtherPlayerIp);
 
             await OnlineSettings.WaitForDeck.Task;
+            
+            
             controllerView.CaricaBriscola();
 
             CarteGiocate = 0;
