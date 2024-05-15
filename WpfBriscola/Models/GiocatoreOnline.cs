@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using static WpfBriscola.GameValues;
 using System.Threading;
 using System.Threading.Tasks;
+using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
 {
@@ -21,28 +22,9 @@ namespace WpfBriscola.Models
         public GiocatoreOnline(int nR, string nome, Mazzo mazzo, IPAddress receiverIp ):base(nR, nome, mazzo)
         {
             
-            Connessione = new();
-            //TryToConnect();
+            
             
         }
-
-        //private async void TryToConnect()
-        //{
-        //    byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
-        //    SenderSocket.SendTo(messaggio, ReceiverEndpoint);
-
-        //    var connectedOrTimeout = new List<Task> { Connessione.Task, Task.Delay(TimeSpan.FromSeconds(30)) };
-        //    Task task = Task.WhenAny(connectedOrTimeout);
-
-        //    if(task == Connessione.Task)
-        //    {
-        //        Connected = true;
-        //    }
-        //    else
-        //    {
-        //        throw new Exception("Richiesta Di Connessione Scaduta");
-        //    }
-        //}
 
         
     }

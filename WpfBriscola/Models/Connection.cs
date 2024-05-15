@@ -13,8 +13,14 @@ namespace WpfBriscola.Models
     {
         public Socket SenderSocket { get; set; }
         public EndPoint Receiver { get; set; }
-        public bool alreadyConnected { get; set; }
+        public bool AlreadyConnected { get; set; }
         public TaskCompletionSource WaitForConnection { get; set; }
+        public TaskCompletionSource WaitForDeck { get; set; } 
+        public TaskCompletionSource WaitForCard { get; set; }
+        public int GrandezzaMazzo { get; set; }
+        public List<Carta> Mazzo { get; set; }
+        public bool PrincipalHost { get; set; }
+        public Carta ReceivedCard { get; private set; }
 
         public Connection()
         {
@@ -24,7 +30,8 @@ namespace WpfBriscola.Models
             IPEndPoint senderEndpoint = new IPEndPoint(IPAddress.Any, Port);
             SenderSocket.Bind(senderEndpoint);
             WaitForConnection = new();
-
+            GrandezzaMazzo = 0;
+            WaitForDeck = new();
         }
 
         
@@ -32,7 +39,7 @@ namespace WpfBriscola.Models
         {
             int nrBytes;
 
-            if ((nrBytes = SenderSocket.Available) > 0 && !alreadyConnected)
+            if ((nrBytes = SenderSocket.Available) > 0 && !AlreadyConnected)
             {
                byte[] buffer = new byte[nrBytes];
 
@@ -43,7 +50,7 @@ namespace WpfBriscola.Models
 
                 if(Encoding.UTF8.GetString(buffer, 0, nrBytes) == StringaRichiestaDiConnessione)
                 {
-                    alreadyConnected = true;
+                    AlreadyConnected = true;
                     WaitForConnection.SetResult();
                 }
             }
@@ -63,7 +70,7 @@ namespace WpfBriscola.Models
                 return false;
             }
         }
-        public async Task<Carta?> ReceiveCard(object sender, EventArgs e)
+        public async void ReceiveCard(object sender, EventArgs e)
         {
             int nrBytes;
             if ((nrBytes = SenderSocket.Available) > 0)
@@ -72,10 +79,47 @@ namespace WpfBriscola.Models
                 EndPoint receiver = new IPEndPoint(IPAddress.Any, Port); ;
                 SenderSocket.ReceiveFrom(buffer, ref receiver);
 
-                return new Carta(Encoding.UTF8.GetString(buffer, 0, nrBytes));
+                Carta c = new Carta(Encoding.UTF8.GetString(buffer, 0, nrBytes));
+                if(GrandezzaMazzo < 40)
+                {
+                    Mazzo.Add(c);
+                    GrandezzaMazzo++;
+                    if (GrandezzaMazzo == 40)
+                    {
+                        WaitForDeck.SetResult();
+                    }
+                }
+
+                ReceivedCard = c;
+                WaitForCard.SetResult();
             }
-            return null;
         }
 
+        public async void TryToConnect(IPAddress ip)
+        {
+            byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
+            Receiver = new IPEndPoint(ip, Port);
+            SenderSocket.SendTo(messaggio, Receiver);
+
+            var connectedOrTimeout = new List<Task> { WaitForConnection.Task, Task.Delay(TimeSpan.FromSeconds(30)) };
+            Task task = await Task.WhenAny(connectedOrTimeout);
+
+            if (task == WaitForConnection.Task)
+            {
+                AlreadyConnected = true;
+            }
+            else
+            {
+                throw new Exception("Richiesta Di Connessione Scaduta");
+            }
+        }
+
+        public async Task SendDeck(Mazzo mazzo)
+        {
+            foreach(Carta c in mazzo.ListaCarte)
+            {
+                SendCard(c);
+            }
+        }
     }
 }

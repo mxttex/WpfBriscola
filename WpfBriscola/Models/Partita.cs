@@ -13,12 +13,12 @@ namespace WpfBriscola.Models
 
     public class Partita
     {
-        private TaskCompletionSource TaskCartaScelta;
-        private TaskCompletionSource TaskPartita;
-        private TaskCompletionSource Animazione;
+        protected TaskCompletionSource TaskCartaScelta;
+        protected TaskCompletionSource TaskPartita;
+        protected TaskCompletionSource Animazione;
 
-        internal ControllerView controllerView { private get; set; }
-        private bool Playing { get; set; }
+        internal ControllerView controllerView { get; set; }
+        internal bool Playing { get; set; }
         internal Models.Mazzo Mazzo { get; set; }
         internal Giocatore Giocatore1 { get; set; }
         internal AIGiocatore Giocatore2 { get; set; }
@@ -35,7 +35,7 @@ namespace WpfBriscola.Models
             InizializzaPartita(nomeGiocatore1, nomeGiocatore2);
 
         }
-        internal void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
+        internal virtual void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
         {
             Mazzo = new Mazzo();
             SemeBriscolaInGioco = PescaBriscola();
@@ -46,7 +46,7 @@ namespace WpfBriscola.Models
                             
         }
 
-        private Semi PescaBriscola()
+        internal Semi PescaBriscola()
         {
             Carta c = Mazzo.PrimaCarta();
             Mazzo.ListaCarte.Add(c);
@@ -68,7 +68,7 @@ namespace WpfBriscola.Models
             controllerView.Aggiorna(scelta);
             return scelta;
         }
-        public async void GameLoop()
+        public virtual async void GameLoop()
         {
             int turno = new Random().Next(2);
             Carta CartaSceltaDalPc = new();
@@ -149,7 +149,7 @@ namespace WpfBriscola.Models
             TaskCartaScelta.SetResult();
         }
 
-        public async void StartPlaying()
+        public virtual async void StartPlaying()
         {
             controllerView.CaricaBriscola();
             while (Playing)
@@ -169,12 +169,12 @@ namespace WpfBriscola.Models
             controllerView.SwitchaFinestra();
         }
 
-        private int CalcolaPunteggio(Carta c1, Carta c2)
+        protected int CalcolaPunteggio(Carta c1, Carta c2)
         {
             return c1.Punteggio + c2.Punteggio;
         }
 
-        private int CalcolaVincitore(Carta utente, Carta pc, int turno)
+        protected int CalcolaVincitore(Carta utente, Carta pc, int turno)
         {
             
             switch (turno)
@@ -191,7 +191,7 @@ namespace WpfBriscola.Models
             
         }
 
-        private string VisualizzaMessagioVincitore()
+        protected string VisualizzaMessagioVincitore()
         {
             StringBuilder sb = new();
             int differenzaPunti = Giocatore1.Punti - Giocatore2.Punti;

@@ -15,6 +15,12 @@ namespace WpfBriscola.Models
             ListaCarte = InizializzaMazzo();
         }
 
+        public Mazzo(List<Carta> mazzo)
+        {
+            ListaCarte = MischiaCarte(mazzo);
+        }
+   
+
         private List<Carta> CreaMazzo()
         {
             List<Carta> lista = new List<Carta>();

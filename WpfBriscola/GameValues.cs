@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-
+using WpfBriscola.Models;
 
 namespace WpfBriscola
 {
@@ -45,5 +45,6 @@ namespace WpfBriscola
         //messaggioDiRichiestaConnessione
         public const string StringaRichiestaDiConnessione = ("richiestaConnessione");
         public static IPAddress OtherPlayerIp = null;
+        public static Connection OnlineSettings= new();
     }
 }
