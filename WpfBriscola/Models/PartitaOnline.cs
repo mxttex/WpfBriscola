@@ -11,7 +11,7 @@ namespace WpfBriscola.Models
     {
         public PartitaOnline(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller) :base(nomeGiocatore1, nomeGiocatore2, controller)
         {
-            
+            Giocatore2 = new Giocatore(2, nomeGiocatore2, Mazzo);
         }
 
         internal override async void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
@@ -50,6 +50,7 @@ namespace WpfBriscola.Models
                 {
                     case 0:
                         await TaskCartaScelta.Task;
+                        OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
                         CarteGiocate++;
                         //CartaSceltaDalPc = GiocataPc(CartaScelta, turno);
@@ -61,6 +62,7 @@ namespace WpfBriscola.Models
                         await OnlineSettings.WaitForCard.Task;
                         CartaSceltaDalPc = OnlineSettings.ReceivedCard;
                         await TaskCartaScelta.Task;
+                        OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
                         CarteGiocate++;
                         break;
@@ -86,9 +88,7 @@ namespace WpfBriscola.Models
                         break;
                 }
 
-                if (new Random().Next(0, 100) < memP) Giocatore2[CartaScelta.Numero, (int)CartaScelta.SemeNumerico] = true;
-                if (new Random().Next(0, 100) < memP) Giocatore2[CartaSceltaDalPc.Numero, (int)CartaSceltaDalPc.SemeNumerico] = true;
-
+                
                 //inoltrare il turno, e in base a quello pescare la carta alla posizione 0 o 1
 
                 if (Mazzo.ListaCarte.Count > 0)
@@ -120,9 +120,9 @@ namespace WpfBriscola.Models
             TaskPartita.SetResult();
         }
 
-        public override void StartPlaying()
+        public async override void StartPlaying()
         {
-            base.StartPlaying();
+            GameLoop();
         }
     }
 }
