@@ -11,7 +11,7 @@ namespace WpfBriscola.Models
     {
         public PartitaOnline(string nomeGiocatore1, string nomeGiocatore2, ControllerView controller) :base(nomeGiocatore1, nomeGiocatore2, controller)
         {
-            Giocatore2 = new Giocatore(2, nomeGiocatore2, Mazzo);
+            Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
         }
 
         internal override async void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
