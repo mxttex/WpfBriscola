@@ -57,7 +57,7 @@ namespace WpfBriscola
 
         private void txtIp_TextChanged(object sender, TextChangedEventArgs e)
         {
-            btnAvviaPartitaOnline.IsEnabled = IPAddress.TryParse(txtIp.Text, out GameValues.OtherPlayerIp) ? false : true;     
+            btnAvviaPartitaOnline.IsEnabled = IPAddress.TryParse(txtIp.Text, out GameValues.OtherPlayerIp) ? true : false;     
         }
     }
 }
