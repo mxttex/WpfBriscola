@@ -31,6 +31,7 @@ namespace WpfBriscola.Models
             IPEndPoint senderEndpoint = new IPEndPoint(IPAddress.Any, Port);
             SenderSocket.Bind(senderEndpoint);
             WaitForConnection = new();
+            WaitForCard = new();
             GrandezzaMazzo = 0;
             WaitForDeck = new();
         }
@@ -102,20 +103,18 @@ namespace WpfBriscola.Models
 
         public async Task TryToConnect(IPAddress ip)
         {
-            byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
-            Receiver = new IPEndPoint(ip, Port);
-            SenderSocket.SendTo(messaggio, Receiver);
-
-            var connectedOrTimeout = new List<Task> { WaitForConnection.Task, Task.Delay(TimeSpan.FromSeconds(30)) };
-            Task task = await Task.WhenAny(connectedOrTimeout);
-
-            if (task == WaitForConnection.Task)
+            try
             {
+                byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
+                Receiver = new IPEndPoint(ip, Port);
+                SenderSocket.SendTo(messaggio, Receiver);
                 AlreadyConnected = true;
+                
+              
             }
-            else
+            catch (Exception)
             {
-                throw new Exception("Richiesta Di Connessione Scaduta");
+                AlreadyConnected = false;
             }
         }
 
