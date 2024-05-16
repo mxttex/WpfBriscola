@@ -53,7 +53,7 @@ namespace WpfBriscola.Models
                 {
                     AlreadyConnected = true;
                     WaitForConnection.SetResult();
-                    MainWindow mw = new MainWindow("giocatore", true); Application.Current.Shutdown(); mw.Show();
+                    MainWindow mw = new MainWindow("giocatore", true);  mw.Show();
                    
                 }
             }
