@@ -32,6 +32,7 @@ namespace WpfBriscola.Models
                 Mazzo = new Mazzo();
                 InizializzaPartitaPartiInComune();
                 OnlineSettings.SendDeck(Mazzo);
+                await OnlineSettings.WaitForDeck.Task;
             }
         }
 
@@ -43,10 +44,11 @@ namespace WpfBriscola.Models
         }
         public override async void GameLoop()
         {
-            int turno = OnlineSettings.PrincipalHost ? 0:1;
             Carta CartaSceltaDalPc = new();
             Giocatore1.Mazzo = Giocatore2.Mazzo = Mazzo;
-            if(turno == 0)
+            int turno = OnlineSettings.PrincipalHost ? 0 : 1;
+
+            if (turno == 0)
             {
                 Giocatore1.RiempiMano();
                 Giocatore2.RiempiMano();
@@ -56,6 +58,7 @@ namespace WpfBriscola.Models
                 Giocatore2.RiempiMano();
                 Giocatore1.RiempiMano();
             }
+            controllerView.RicostruisciWindow();
             while (CarteGiocate < 40)
             {
                 switch (turno)
@@ -135,10 +138,9 @@ namespace WpfBriscola.Models
         public async override void StartPlaying()
         {
 
-            await OnlineSettings.WaitForDeck.Task;
-            
-            
+            await CreaPartita();
             controllerView.CaricaBriscola();
+            controllerView.RicostruisciWindow();
 
             CarteGiocate = 0;
             GameLoop();
