@@ -134,11 +134,10 @@ namespace WpfBriscola.Models
 
         public async override void StartPlaying()
         {
-            await this.CreaPartita();
 
             await OnlineSettings.WaitForDeck.Task;
-            controllerView.RicostruisciWindow();
-
+            
+            
             controllerView.CaricaBriscola();
 
             CarteGiocate = 0;

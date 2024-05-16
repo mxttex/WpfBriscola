@@ -36,23 +36,32 @@ namespace WpfBriscola
         public int PreseG1 { get; set; }
         public int PreseG2 {get; set; }
         private int CarteGiocate { get; set; }
+        private bool IsOnline { get; set; }
+        private string NamePlayerOne { get; set; }
 
         public MainWindow(string namePlayerOne, bool mode)
         {
             InitializeComponent();
             controllerView = new(this);
-            
-            Partita = mode ? new PartitaOnline(namePlayerOne, "remote", controllerView): new Partita(namePlayerOne, "pc", controllerView);
-            
-            
+            IsOnline = mode;
+            NamePlayerOne = namePlayerOne;    
         }
 
        
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             PulisciTavolo();
             LoadImmagini();
+            if (IsOnline)
+            {
+                await OnlineSettings.TryToConnect(OtherPlayerIp);
+                Partita = new PartitaOnline(NamePlayerOne, "remote", controllerView);
+            }
+            else
+            {
+                Partita = new Partita(NamePlayerOne, "pc", controllerView);
+            }
             Partita.StartPlaying();
         }
 
