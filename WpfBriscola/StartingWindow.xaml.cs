@@ -43,6 +43,7 @@ namespace WpfBriscola
             
             bool mode = ((Button)sender).Name.Substring(15) == "Online" ? true : false;
             MainWindow mw = new MainWindow(txtNomeGiocatore.Text, mode);
+            WpfBriscola.GameValues.OnlineSettings.PrincipalHost = true;
             mw.Show();
             this.Close();
         }

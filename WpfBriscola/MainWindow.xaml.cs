@@ -41,6 +41,7 @@ namespace WpfBriscola
         {
             InitializeComponent();
             controllerView = new(this);
+            
             Partita = mode ? new PartitaOnline(namePlayerOne, "remote", controllerView): new Partita(namePlayerOne, "pc", controllerView);
             
             

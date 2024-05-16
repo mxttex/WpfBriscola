@@ -16,33 +16,28 @@ namespace WpfBriscola.Models
             Giocatore1 = new Giocatore(1, nomeGiocatore1, Mazzo);
             Giocatore2 = new AIGiocatore(2, nomeGiocatore2, Mazzo);
             controllerView = controller;
-            InizializzaPartita(nomeGiocatore1, nomeGiocatore2);
         }
 
-        internal override async void InizializzaPartita(string nomeGiocatore1, string nomeGiocatore2)
+        internal async Task CreaPartita()
         {
-            if (!OnlineSettings.AlreadyConnected)
+            if (!OnlineSettings.PrincipalHost)
             {
                 await OnlineSettings.WaitForDeck.Task;
                 Mazzo = new(OnlineSettings.Mazzo);
-                InizializzaPartitaPartiInComune(nomeGiocatore1, nomeGiocatore2);
-                OnlineSettings.PrincipalHost = false;
+                InizializzaPartitaPartiInComune();
             }
             else
             {
-                OnlineSettings.PrincipalHost = true;
                 OnlineSettings.GrandezzaMazzo = 40;
                 Mazzo = new Mazzo();
-                InizializzaPartitaPartiInComune(nomeGiocatore1, nomeGiocatore2);
+                InizializzaPartitaPartiInComune();
                 OnlineSettings.SendDeck(Mazzo);
-                await OnlineSettings.WaitForDeck.Task;
             }
         }
 
-        private void InizializzaPartitaPartiInComune(string nomeGiocatore1, string nomeGiocatore2)
+        private void InizializzaPartitaPartiInComune()
         {
             SemeBriscolaInGioco = PescaBriscola();
-            Giocatore1 = new Giocatore(1, nomeGiocatore1, Mazzo);
             CarteGiocate = 0;
             Playing = true; //di default l'utente vuole fare una partita
         }
@@ -50,7 +45,6 @@ namespace WpfBriscola.Models
         {
             int turno = OnlineSettings.PrincipalHost ? 0:1;
             Carta CartaSceltaDalPc = new();
-            await OnlineSettings.WaitForDeck.Task;
             Giocatore1.Mazzo = Giocatore2.Mazzo = Mazzo;
             if(turno == 0)
             {
@@ -140,11 +134,11 @@ namespace WpfBriscola.Models
 
         public async override void StartPlaying()
         {
-            await OnlineSettings.TryToConnect(OtherPlayerIp);
+            await this.CreaPartita();
 
             await OnlineSettings.WaitForDeck.Task;
-            
-            
+            controllerView.RicostruisciWindow();
+
             controllerView.CaricaBriscola();
 
             CarteGiocate = 0;

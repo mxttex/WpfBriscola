@@ -34,6 +34,7 @@ namespace WpfBriscola.Models
             WaitForCard = new();
             GrandezzaMazzo = 0;
             WaitForDeck = new();
+            PrincipalHost = false;
         }
 
         
@@ -101,7 +102,7 @@ namespace WpfBriscola.Models
             }
         }
 
-        public async Task TryToConnect(IPAddress ip)
+        public Task TryToConnect(IPAddress ip)
         {
             try
             {
@@ -109,12 +110,13 @@ namespace WpfBriscola.Models
                 Receiver = new IPEndPoint(ip, Port);
                 SenderSocket.SendTo(messaggio, Receiver);
                 AlreadyConnected = true;
-                
+                return Task.CompletedTask;
               
             }
             catch (Exception)
             {
                 AlreadyConnected = false;
+                throw new Exception();
             }
         }
 
