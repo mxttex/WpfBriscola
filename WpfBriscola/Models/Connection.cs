@@ -42,11 +42,12 @@ namespace WpfBriscola.Models
         {
             int nrBytes;
 
+            
             if ((nrBytes = SenderSocket.Available) > 0 && !AlreadyConnected)
             {
                byte[] buffer = new byte[nrBytes];
 
-               EndPoint receiver = new IPEndPoint(IPAddress.Any, Port);
+               EndPoint receiver = new IPEndPoint(IPAddress.Any, 50753);
                SenderSocket.ReceiveFrom(buffer, ref receiver);
                Receiver = receiver;
                OtherPlayerIp = (receiver as IPEndPoint).Address;

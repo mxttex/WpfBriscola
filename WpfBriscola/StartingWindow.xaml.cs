@@ -33,7 +33,7 @@ namespace WpfBriscola
         private void ListenForConnection()
         {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(WpfBriscola.GameValues.OnlineSettings.ListenForConnection);
+            timer.Tick += new EventHandler(GameValues.OnlineSettings.ListenForConnection);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
             timer.Start();
         }
