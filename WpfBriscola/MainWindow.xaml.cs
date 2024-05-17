@@ -194,6 +194,10 @@ namespace WpfBriscola
             PreseG1 = PreseG2 = 0;
             imgMazzoG1.Visibility = imgMazzoG2.Visibility = Visibility.Hidden;
         }
+        internal void DisabilitaBottoni()
+        {
+            btnCartaMazzo1.IsEnabled = btnCartaMazzo2.IsEnabled = btnCartaMazzo3.IsEnabled = false;
+        }
 
         internal void AnimazioneCarte(int vincitore, TaskCompletionSource task)
         {

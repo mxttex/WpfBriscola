@@ -41,7 +41,7 @@ namespace WpfBriscola
 
 
         //variabili per online
-        public const int Port = 50752;
+        public const int Port = 50753;
         
 
         //messaggioDiRichiestaConnessione

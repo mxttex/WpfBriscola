@@ -16,9 +16,9 @@ namespace WpfBriscola
         {
             Window = mw;
         }
-        public  void Aggiorna(Carta C)
+        public void Aggiorna(Carta C)
         {
-            Window.CaricaCartaPC(C);    
+            Window.CaricaCartaPC(C);
         }
 
         public void RicostruisciWindow()
@@ -36,11 +36,11 @@ namespace WpfBriscola
             Window.LoadImmagini();
             Window.PulisciTavolo();
             Window.AttivaBottoni();
-            
+
         }
 
         public void RimuoviCartaMazzo()
-        { 
+        {
             Window.RimuoviBriscola();
         }
 
@@ -53,7 +53,7 @@ namespace WpfBriscola
         {
             Window.CaricaBriscola();
         }
-        
+
         public void SwitchaFinestra()
         {
             StartingWindow sw = new();
@@ -75,5 +75,10 @@ namespace WpfBriscola
         {
             Window.ScriviVincitore(message);
         }
+        internal void AbilitaBottoni()
+        {
+            Window.AttivaBottoni();
+        }
+        internal void DisabilitaBottoni() { Window.DisabilitaBottoni(); }
     }
 }

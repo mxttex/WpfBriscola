@@ -63,27 +63,32 @@ namespace WpfBriscola.Models
                 switch (turno)
                 {
                     case 0:
+                        controllerView.AbilitaBottoni();
                         await TaskCartaScelta.Task;
+                        controllerView.DisabilitaBottoni();
                         OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
                         CarteGiocate++;
                         //CartaSceltaDalPc = GiocataPc(CartaScelta, turno);
                         await OnlineSettings.WaitForCard.Task;
                         CartaSceltaDalPc = OnlineSettings.ReceivedCard;
+                        controllerView.Aggiorna(CartaSceltaDalPc);
                         break;
                     case 1:
                         //CartaSceltaDalPc = GiocataPc(null, turno);
                         await OnlineSettings.WaitForCard.Task;
                         CartaSceltaDalPc = OnlineSettings.ReceivedCard;
+                        controllerView.Aggiorna(CartaSceltaDalPc);
+                        controllerView.AbilitaBottoni();
                         await TaskCartaScelta.Task;
+                        controllerView.AbilitaBottoni();
                         OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
                         CarteGiocate++;
                         break;
                 }
-
+                OnlineSettings.WaitForCard = new();
                 Giocatore1.Mano.Remove(CartaScelta);
-
 
                 int vincitore = CalcolaVincitore(CartaScelta, CartaSceltaDalPc, turno);
 
@@ -120,7 +125,6 @@ namespace WpfBriscola.Models
 
                     if (Mazzo.ListaCarte.Count == 0)
                     {
-
                         controllerView.RimuoviCartaMazzo();
                     }
                 }
@@ -128,6 +132,7 @@ namespace WpfBriscola.Models
                 await Animazione.Task;
                 Animazione = new();
                 controllerView.PulisciView();
+                controllerView.DisabilitaBottoni();
                 controllerView.CambiaSfondoCarteRimanenti();
             }
 

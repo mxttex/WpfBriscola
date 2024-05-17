@@ -54,6 +54,7 @@ namespace WpfBriscola.Models
         internal Semi PescaBriscola()
         {
             Carta c = Mazzo.PrimaCarta();
+            Mazzo.ListaCarte.Add(c);
             BriscolaFinale = c;
             foreach (Carta carta in Mazzo.ListaCarte) 
                 if (carta.Seme == c.Seme)

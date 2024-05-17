@@ -25,7 +25,7 @@ namespace WpfBriscola.Models
         {
             //da creare l'overload
             ConvertFromPathToValues(path);
-            Path = path;
+            Path = Numero != 10 ? path.Substring(0, 17) : path.Substring(0,18);
         }
 
         public Carta()

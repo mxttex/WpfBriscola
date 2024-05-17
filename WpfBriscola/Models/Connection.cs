@@ -69,7 +69,7 @@ namespace WpfBriscola.Models
             if ((nrBytes = SenderSocket.Available) > 0 && AlreadyConnected)
             {
                 byte[] buffer = new byte[nrBytes];
-                EndPoint receiver = new IPEndPoint(IPAddress.Any, 50753); ;
+                EndPoint receiver = new IPEndPoint(IPAddress.Any, 50752); ;
                 SenderSocket.ReceiveFrom(buffer, ref receiver);
 
                 Carta c = new Carta(Encoding.UTF8.GetString(buffer, 0, nrBytes));
@@ -95,7 +95,7 @@ namespace WpfBriscola.Models
             try
             {
                 byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
-                Receiver = new IPEndPoint(ip, 50753);
+                Receiver = new IPEndPoint(ip, 50752);
                 SenderSocket.SendTo(messaggio, Receiver);
                 AlreadyConnected = true;
                 return Task.CompletedTask;
