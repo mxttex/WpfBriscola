@@ -52,17 +52,24 @@ namespace WpfBriscola
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             PulisciTavolo();
-            LoadImmagini();
-            if (IsOnline)
+            
+            if (IsOnline && OnlineSettings.PrincipalHost)
             {
                 await OnlineSettings.TryToConnect(OtherPlayerIp);
+                Partita = new PartitaOnline(NamePlayerOne, "remote", controllerView);
+            }
+            else if(IsOnline && !OnlineSettings.PrincipalHost)
+            {
+                await OnlineSettings.WaitForDeck.Task;
                 Partita = new PartitaOnline(NamePlayerOne, "remote", controllerView);
             }
             else
             {
                 Partita = new Partita(NamePlayerOne, "pc", controllerView);
             }
+
             Partita.StartPlaying();
+            LoadImmagini();
         }
 
         internal void LoadImmagini()
@@ -115,7 +122,8 @@ namespace WpfBriscola
 
         public void CaricaBriscola()
         {
-            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
+            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));  
+            
         }
 
         public void PulisciTavolo()

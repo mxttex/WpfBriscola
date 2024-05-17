@@ -25,6 +25,7 @@ namespace WpfBriscola.Models
         {
             //da creare l'overload
             ConvertFromPathToValues(path);
+            Path = path;
         }
 
         public Carta()

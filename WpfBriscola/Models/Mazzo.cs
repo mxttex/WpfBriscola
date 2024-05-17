@@ -17,7 +17,8 @@ namespace WpfBriscola.Models
 
         public Mazzo(List<Carta> mazzo)
         {
-            ListaCarte = MischiaCarte(mazzo);
+            ListaCarte = mazzo;
+            
         }
    
 
@@ -59,8 +60,7 @@ namespace WpfBriscola.Models
         
         internal Carta PrimaCarta()
         {
-            Carta c = ListaCarte[0];
-            ListaCarte.RemoveAt(0);
+            Carta c = ListaCarte[39];
             return c;
         }
 

@@ -38,16 +38,15 @@ namespace WpfBriscola.Models
 
         private void InizializzaPartitaPartiInComune()
         {
-            SemeBriscolaInGioco = PescaBriscola();
             CarteGiocate = 0;
             Playing = true; //di default l'utente vuole fare una partita
         }
         public override async void GameLoop()
         {
             Carta CartaSceltaDalPc = new();
-            Giocatore1.Mazzo = Giocatore2.Mazzo = Mazzo;
+            SemeBriscolaInGioco = PescaBriscola();
             int turno = OnlineSettings.PrincipalHost ? 0 : 1;
-
+            controllerView.RicostruisciWindow();
             if (turno == 0)
             {
                 Giocatore1.RiempiMano();
@@ -139,9 +138,7 @@ namespace WpfBriscola.Models
         {
 
             await CreaPartita();
-            controllerView.CaricaBriscola();
-            controllerView.RicostruisciWindow();
-
+            Giocatore1.Mazzo = Giocatore2.Mazzo = Mazzo;
             CarteGiocate = 0;
             GameLoop();
 

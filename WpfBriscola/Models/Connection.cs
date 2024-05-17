@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using static WpfBriscola.GameValues;
 using System.Windows;
 
@@ -22,6 +23,7 @@ namespace WpfBriscola.Models
         public List<Carta> Mazzo { get; set; }
         public bool PrincipalHost { get; set; }
         public Carta ReceivedCard { get; private set; }
+        public Thread Listening { get; set; }
 
         public Connection()
         {
@@ -36,6 +38,15 @@ namespace WpfBriscola.Models
             WaitForDeck = new();
             PrincipalHost = false;
             AlreadyConnected = false;
+            Mazzo = new List<Carta>();
+            Listening = new Thread(new ThreadStart(() =>
+            {
+                while(true)
+                {
+                    ReceiveCard();
+                }
+            }));
+            Listening.Start();
         }
 
         public bool SendCard(Carta c)
@@ -52,13 +63,13 @@ namespace WpfBriscola.Models
                 return false;
             }
         }
-        public async void ReceiveCard(object sender, EventArgs e)
+        public void ReceiveCard()
         {
             int nrBytes;
-            if ((nrBytes = SenderSocket.Available) > 0)
+            if ((nrBytes = SenderSocket.Available) > 0 && AlreadyConnected)
             {
                 byte[] buffer = new byte[nrBytes];
-                EndPoint receiver = new IPEndPoint(IPAddress.Any, 50172); ;
+                EndPoint receiver = new IPEndPoint(IPAddress.Any, 50753); ;
                 SenderSocket.ReceiveFrom(buffer, ref receiver);
 
                 Carta c = new Carta(Encoding.UTF8.GetString(buffer, 0, nrBytes));
@@ -71,9 +82,11 @@ namespace WpfBriscola.Models
                         WaitForDeck.SetResult();
                     }
                 }
-
-                ReceivedCard = c;
-                WaitForCard.SetResult();
+                else
+                {
+                    ReceivedCard = c;
+                    WaitForCard.SetResult();
+                }
             }
         }
 
@@ -82,7 +95,7 @@ namespace WpfBriscola.Models
             try
             {
                 byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
-                Receiver = new IPEndPoint(ip, Port);
+                Receiver = new IPEndPoint(ip, 50753);
                 SenderSocket.SendTo(messaggio, Receiver);
                 AlreadyConnected = true;
                 return Task.CompletedTask;

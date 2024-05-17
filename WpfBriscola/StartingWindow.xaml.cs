@@ -29,21 +29,31 @@ namespace WpfBriscola
             InitializeComponent();
             sliderDifficoltà.Value = 0;
             nrBytes = 0;
-            Thread ListenForConnection = new Thread(new ThreadStart(() => { 
-                if((nrBytes = GameValues.OnlineSettings.SenderSocket.Available)> 0)
+            Thread ListenForConnection = new Thread(new ThreadStart(() => {
+                while (!GameValues.OnlineSettings.AlreadyConnected)
                 {
-                    byte[] buffer = new byte[nrBytes];
-                    EndPoint remoteEndpoint = new IPEndPoint(IPAddress.Any, 50752);
+                    //MessageBox.Show(GameValues.OnlineSettings.SenderSocket.Available.ToString());
 
-                    GameValues.OnlineSettings.SenderSocket.ReceiveFrom(buffer, ref remoteEndpoint);
-                    GameValues.OtherPlayerIp = (remoteEndpoint as IPEndPoint).Address;
-                    GameValues.OnlineSettings.Receiver = remoteEndpoint;
-
-                    if (Encoding.UTF8.GetString(buffer, 0, nrBytes) == GameValues.StringaRichiestaDiConnessione)
+                    if ((nrBytes = GameValues.OnlineSettings.SenderSocket.Available) > 0)
                     {
-                        GameValues.OnlineSettings.AlreadyConnected = true;
-                        GameValues.OnlineSettings.WaitForConnection.SetResult();
-                        MainWindow mw = new MainWindow("giocatore", true); mw.Show(); this.Close();
+                        //originale
+                        byte[] buffer = new byte[nrBytes];
+                        EndPoint remoteEndpoint = new IPEndPoint(IPAddress.Any, 50753);
+
+                        GameValues.OnlineSettings.SenderSocket.ReceiveFrom(buffer, ref remoteEndpoint);
+                        GameValues.OtherPlayerIp = (remoteEndpoint as IPEndPoint).Address;
+                        GameValues.OnlineSettings.Receiver = remoteEndpoint;
+
+                        if (Encoding.UTF8.GetString(buffer, 0, nrBytes) == GameValues.StringaRichiestaDiConnessione)
+                        {
+                            GameValues.OnlineSettings.AlreadyConnected = true;
+                            GameValues.OnlineSettings.PrincipalHost = false;
+                            GameValues.OnlineSettings.WaitForConnection.SetResult();
+                            Dispatcher.Invoke(() =>
+                            {
+                                MainWindow mw = new MainWindow("giocatore", true); mw.Show(); this.Close();
+                            });
+                        }
                     }
                 }
             }));
