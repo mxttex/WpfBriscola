@@ -38,29 +38,6 @@ namespace WpfBriscola.Models
             AlreadyConnected = false;
         }
 
-            
-            if ((nrBytes = SenderSocket.Available) > 0 && !AlreadyConnected)
-            {
-               byte[] buffer = new byte[nrBytes];
-
-               EndPoint receiver = new IPEndPoint(IPAddress.Any, 50753);
-               SenderSocket.ReceiveFrom(buffer, ref receiver);
-               Receiver = receiver;
-               OtherPlayerIp = (receiver as IPEndPoint).Address;
-
-                if(Encoding.UTF8.GetString(buffer, 0, nrBytes) == StringaRichiestaDiConnessione)
-                {
-                    AlreadyConnected = true;
-                    WaitForConnection.SetResult();
-                    MainWindow mw = new MainWindow("giocatore", true);  mw.Show();
-                   
-                }
-            }
-
-           
-        }
->>>>>>> c1a2432faed79514f0d10adf511c0780a0ad196d
-
         public bool SendCard(Carta c)
         {
             byte[] bufferCarta = Encoding.UTF8.GetBytes(c.Path);
