@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -23,20 +23,34 @@ namespace WpfBriscola
     /// </summary>
     public partial class StartingWindow : Window
     {
+        private int nrBytes { get; set; }
         public StartingWindow()
         {
             InitializeComponent();
             sliderDifficoltà.Value = 0;
-            ListenForConnection();
+            nrBytes = 0;
+            Thread ListenForConnection = new Thread(new ThreadStart(() => { 
+                if((nrBytes = GameValues.OnlineSettings.SenderSocket.Available)> 0)
+                {
+                    byte[] buffer = new byte[nrBytes];
+                    EndPoint remoteEndpoint = new IPEndPoint(IPAddress.Any, 50752);
+
+                    GameValues.OnlineSettings.SenderSocket.ReceiveFrom(buffer, ref remoteEndpoint);
+                    GameValues.OtherPlayerIp = (remoteEndpoint as IPEndPoint).Address;
+                    GameValues.OnlineSettings.Receiver = remoteEndpoint;
+
+                    if (Encoding.UTF8.GetString(buffer, 0, nrBytes) == GameValues.StringaRichiestaDiConnessione)
+                    {
+                        GameValues.OnlineSettings.AlreadyConnected = true;
+                        GameValues.OnlineSettings.WaitForConnection.SetResult();
+                        MainWindow mw = new MainWindow("giocatore", true); mw.Show(); this.Close();
+                    }
+                }
+            }));
+            ListenForConnection.Start();
+
         }
 
-        private void ListenForConnection()
-        {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(GameValues.OnlineSettings.ListenForConnection);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
-            timer.Start();
-        }
 
         private void btnAvviaPartita_Click(object sender, RoutedEventArgs e)
         {
