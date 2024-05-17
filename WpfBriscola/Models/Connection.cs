@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -35,12 +35,8 @@ namespace WpfBriscola.Models
             GrandezzaMazzo = 0;
             WaitForDeck = new();
             PrincipalHost = false;
+            AlreadyConnected = false;
         }
-
-        
-        public void ListenForConnection(object sender, EventArgs e)
-        {
-            int nrBytes;
 
             
             if ((nrBytes = SenderSocket.Available) > 0 && !AlreadyConnected)
@@ -63,6 +59,7 @@ namespace WpfBriscola.Models
 
            
         }
+>>>>>>> c1a2432faed79514f0d10adf511c0780a0ad196d
 
         public bool SendCard(Carta c)
         {
@@ -84,7 +81,7 @@ namespace WpfBriscola.Models
             if ((nrBytes = SenderSocket.Available) > 0)
             {
                 byte[] buffer = new byte[nrBytes];
-                EndPoint receiver = new IPEndPoint(IPAddress.Any, Port); ;
+                EndPoint receiver = new IPEndPoint(IPAddress.Any, 50172); ;
                 SenderSocket.ReceiveFrom(buffer, ref receiver);
 
                 Carta c = new Carta(Encoding.UTF8.GetString(buffer, 0, nrBytes));
