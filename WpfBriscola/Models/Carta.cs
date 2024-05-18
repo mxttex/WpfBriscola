@@ -24,7 +24,6 @@ namespace WpfBriscola.Models
         public Carta(string path)
         {
             //da creare l'overload
-            Path = Numero != 10 ? path.Substring(0, 17) : path.Substring(0,18);
             ConvertFromPathToValues(path);
             if (this.SemeNumerico == SemeBriscolaInGioco)
             {
@@ -149,15 +148,27 @@ namespace WpfBriscola.Models
         {
             char seme = path[10];
             string val;
-            if(path.Length == 17)
-            {
-                 val = path[12].ToString();
-            }
-            else
+            //Path = Numero != 10 ? path.Substring(0, 17) : path.Substring(0, 18);
+            //if (path.Length == 17)
+            //{
+            //     val = path[12].ToString();
+            //}
+            //else
+            //{
+            //    val = path[12].ToString() + path[13];
+            //}
+            try
             {
                 val = path[12].ToString() + path[13];
+                Numero = int.Parse(val);
+                Path = path.Substring(0, 18);
             }
-
+            catch
+            {
+                val = path[12].ToString();
+                Numero = int.Parse(val);
+                Path = path.Substring(0, 17);
+            }
             switch (seme)
             {
                 case 'b':

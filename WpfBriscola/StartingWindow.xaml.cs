@@ -38,7 +38,7 @@ namespace WpfBriscola
                     {
                         //originale
                         byte[] buffer = new byte[nrBytes];
-                        EndPoint remoteEndpoint = new IPEndPoint(IPAddress.Any, 50752);
+                        EndPoint remoteEndpoint = new IPEndPoint(IPAddress.Any,GameValues.Port);
 
                         GameValues.OnlineSettings.SenderSocket.ReceiveFrom(buffer, ref remoteEndpoint);
                         GameValues.OtherPlayerIp = (remoteEndpoint as IPEndPoint).Address;
