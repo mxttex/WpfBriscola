@@ -68,7 +68,7 @@ namespace WpfBriscola.Models
                         controllerView.DisabilitaBottoni();
                         OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
-                        CarteGiocate++;
+                        CarteGiocate+=2;
                         //CartaSceltaDalPc = GiocataPc(CartaScelta, turno);
                         await OnlineSettings.WaitForCard.Task;
                         CartaSceltaDalPc = OnlineSettings.ReceivedCard;
@@ -84,11 +84,12 @@ namespace WpfBriscola.Models
                         controllerView.AbilitaBottoni();
                         OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
-                        CarteGiocate++;
+                        CarteGiocate+=2;
                         break;
                 }
                 OnlineSettings.WaitForCard = new();
                 Giocatore1.Mano.Remove(CartaScelta);
+                Giocatore2.Mano.Remove(CartaSceltaDalPc);
 
                 int vincitore = CalcolaVincitore(CartaScelta, CartaSceltaDalPc, turno);
 
