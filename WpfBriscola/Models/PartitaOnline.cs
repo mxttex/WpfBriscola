@@ -152,9 +152,7 @@ namespace WpfBriscola.Models
             TaskPartita = new TaskCompletionSource();
 
             controllerView.VisulizzaVincitore(VisualizzaMessagioVincitore());
-            if (MessageBox.Show("Vuoi Ricominciare la Partita?", "Ricomincia Partita", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
-                Playing = false;
-            else InizializzaPartita(Giocatore1.Nome, Giocatore2.Nome); controllerView.RicostruisciWindow();
+            await Task.Delay(TimeSpan.FromSeconds(2));
 
             controllerView.SwitchaFinestra();
         }
