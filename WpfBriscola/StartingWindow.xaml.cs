@@ -26,6 +26,7 @@ namespace WpfBriscola
         private int nrBytes { get; set; }
         public StartingWindow()
         {
+            GameValues.OnlineSettings = new();
             InitializeComponent();
             sliderDifficoltà.Value = 0;
             nrBytes = 0;
@@ -58,6 +59,7 @@ namespace WpfBriscola
                 }
             }));
             ListenForConnection.Start();
+            
 
         }
 

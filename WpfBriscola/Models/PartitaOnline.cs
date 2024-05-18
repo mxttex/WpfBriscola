@@ -58,6 +58,8 @@ namespace WpfBriscola.Models
                 Giocatore1.RiempiMano();
             }
             controllerView.RicostruisciWindow();
+            controllerView.DisabilitaBottoni();
+
             while (CarteGiocate < 40)
             {
                 switch (turno)
@@ -81,7 +83,7 @@ namespace WpfBriscola.Models
                         controllerView.Aggiorna(CartaSceltaDalPc);
                         controllerView.AbilitaBottoni();
                         await TaskCartaScelta.Task;
-                        controllerView.AbilitaBottoni();
+                        controllerView.DisabilitaBottoni();
                         OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
                         CarteGiocate+=2;
@@ -135,6 +137,8 @@ namespace WpfBriscola.Models
                 controllerView.PulisciView();
                 controllerView.DisabilitaBottoni();
                 controllerView.CambiaSfondoCarteRimanenti();
+                CartaScelta = new();
+                CartaSceltaDalPc = new();
             }
 
             TaskPartita.SetResult();
