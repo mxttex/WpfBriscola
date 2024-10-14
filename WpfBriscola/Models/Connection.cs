@@ -90,11 +90,11 @@ namespace WpfBriscola.Models
             }
         }
 
-        public Task TryToConnect(IPAddress ip)
+        public Task TryToConnect(IPAddress ip, string playerName)
         {
             try
             {
-                byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione);
+                byte[] messaggio = Encoding.UTF8.GetBytes(StringaRichiestaDiConnessione + playerName);
                 Receiver = new IPEndPoint(ip, Port);
                 SenderSocket.SendTo(messaggio, Receiver);
                 AlreadyConnected = true;

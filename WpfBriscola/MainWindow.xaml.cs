@@ -34,34 +34,43 @@ namespace WpfBriscola
         public Partita Partita { get; set; }
         private ControllerView controllerView { get; set; }
         public int PreseG1 { get; set; }
-        public int PreseG2 {get; set; }
+        public int PreseG2 { get; set; }
         private int CarteGiocate { get; set; }
         private bool IsOnline { get; set; }
         private string NamePlayerOne { get; set; }
+        private string NamePlayerTwo { get; set; }
 
         public MainWindow(string namePlayerOne, bool mode)
         {
             InitializeComponent();
             controllerView = new(this);
             IsOnline = mode;
-            NamePlayerOne = namePlayerOne;    
+            NamePlayerOne = namePlayerOne;
+        }
+        public MainWindow(string namePlayerOne, bool mode, string opponent)
+        {
+            InitializeComponent();
+            controllerView = new(this);
+            IsOnline = mode;
+            NamePlayerOne = namePlayerOne;
+            NamePlayerTwo = opponent;
         }
 
-       
+
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             PulisciTavolo();
-            
-            if (IsOnline && OnlineSettings.PrincipalHost)
+
+            if (IsOnline && OnlineSettings!.PrincipalHost)
             {
-                await OnlineSettings.TryToConnect(OtherPlayerIp);
-                Partita = new PartitaOnline(NamePlayerOne, "remote", controllerView);
+                await OnlineSettings.TryToConnect(OtherPlayerIp, NamePlayerOne);
+                Partita = new PartitaOnline(NamePlayerOne, NamePlayerTwo, controllerView);
             }
-            else if(IsOnline && !OnlineSettings.PrincipalHost)
+            else if (IsOnline && !OnlineSettings!.PrincipalHost)
             {
                 await OnlineSettings.WaitForDeck.Task;
-                Partita = new PartitaOnline(NamePlayerOne, "remote", controllerView);
+                Partita = new PartitaOnline(NamePlayerOne, NamePlayerTwo, controllerView);
             }
             else
             {
@@ -85,7 +94,7 @@ namespace WpfBriscola
             }
             catch (Exception)
             {
-                btnCartaMazzo1.Visibility= imgCartaPc1.Visibility = Visibility.Collapsed;
+                btnCartaMazzo1.Visibility = imgCartaPc1.Visibility = Visibility.Collapsed;
             }
 
             try
@@ -107,11 +116,11 @@ namespace WpfBriscola
                 im3.Source = new BitmapImage(new Uri(Partita.Giocatore1.Mano[2].Path, UriKind.Relative));
                 btnCartaMazzo3.Content = im3;
                 imgCartaPc3.Visibility = Visibility.Visible;
-                
+
             }
             catch (Exception)
             {
-                btnCartaMazzo3.Visibility = imgCartaPc3.Visibility =Visibility.Collapsed;
+                btnCartaMazzo3.Visibility = imgCartaPc3.Visibility = Visibility.Collapsed;
             }
 
             //Assegno il contenuto dei bottoni a quelle immagini
@@ -122,8 +131,8 @@ namespace WpfBriscola
 
         public void CaricaBriscola()
         {
-            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));  
-            
+            imgBriscola.Source = new BitmapImage(new Uri(Partita.BriscolaFinale.Path, UriKind.Relative));
+
         }
 
         public void PulisciTavolo()
@@ -174,10 +183,10 @@ namespace WpfBriscola
         }
         internal void SegnalaFineMazzo()
         {
-            if (Partita.Mazzo.ListaCarte.Count == 2){ tbkAggiornamenti.Text = "Ultime due carte nel mazzo"; return; }
+            if (Partita.Mazzo.ListaCarte.Count == 2) { tbkAggiornamenti.Text = "Ultime due carte nel mazzo"; return; }
             if (Partita.Mazzo.ListaCarte.Count == 4) tbkAggiornamenti.Text = "Ultime quattro carte nel mazzo";
             else ResettaTextBlock();
-            
+
         }
 
         internal void ScriviVincitore(string msg)
@@ -205,7 +214,7 @@ namespace WpfBriscola
             double margineY = (vincitore != 1 ? DY : SY);
             if (vincitore == 1) PreseG1++;
             else PreseG2++;
-            
+
 
             Thread ts = new Thread(new ThreadStart(() =>
             {
@@ -216,7 +225,7 @@ namespace WpfBriscola
                     CartaDaMuovere.Visibility = Visibility.Visible;
                     marginiOriginali = CartaDaMuovere.Margin;
                 }));
-                for (int i = 0; i < 21; i++) 
+                for (int i = 0; i < 21; i++)
                 {
                     Thread.Sleep(35);
                     Dispatcher.Invoke(new Action(() =>
@@ -226,14 +235,14 @@ namespace WpfBriscola
                         margini.Top += margineY;
                         CartaDaMuovere.Margin = margini;
                     }));
-                   
+
                 }
                 Dispatcher.Invoke(new Action(() =>
                 {
                     Thread.Sleep(500);
                     CartaDaMuovere.Visibility = Visibility.Collapsed;
                     CartaDaMuovere.Margin = marginiOriginali;
-                    if(PreseG1 > 0) imgMazzoG1.Visibility = Visibility.Visible;
+                    if (PreseG1 > 0) imgMazzoG1.Visibility = Visibility.Visible;
                     if (PreseG2 > 0) imgMazzoG2.Visibility = Visibility.Visible;
                 }));
                 task.SetResult();

@@ -8,19 +8,19 @@ using static WpfBriscola.GameValues;
 
 namespace WpfBriscola.Models
 {
-    
+
 
     public class Carta : IComparable<Carta>, IEquatable<Carta>
     {
-        
+
         internal int Numero { get; set; }
         internal string Seme { get; set; }
         internal Semi SemeNumerico { get; set; }
-        internal string Path { get; set; }  
+        internal string Path { get; set; }
         internal int Punteggio { get; set; }
         internal bool IsBriscola { get; set; }
         internal double PesoConst { get; set; }
-        
+
         public Carta(string path)
         {
             //da creare l'overload
@@ -118,7 +118,7 @@ namespace WpfBriscola.Models
         {
             string ritorno = string.Empty;
 
-            switch (Numero) 
+            switch (Numero)
             {
                 case 1:
                     ritorno += "Asso "; break;
@@ -148,15 +148,7 @@ namespace WpfBriscola.Models
         {
             char seme = path[10];
             string val;
-            //Path = Numero != 10 ? path.Substring(0, 17) : path.Substring(0, 18);
-            //if (path.Length == 17)
-            //{
-            //     val = path[12].ToString();
-            //}
-            //else
-            //{
-            //    val = path[12].ToString() + path[13];
-            //}
+
             try
             {
                 val = path[12].ToString() + path[13];
@@ -173,7 +165,7 @@ namespace WpfBriscola.Models
             {
                 case 'b':
                     Seme = "bastoni";
-                    SemeNumerico = Semi.Bastoni; 
+                    SemeNumerico = Semi.Bastoni;
                     break;
                 case 'c':
                     Seme = "coppe";

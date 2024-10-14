@@ -25,7 +25,7 @@
         <Label Grid.Row="0" Grid.ColumnSpan="4" Background="Orange" FontSize="28" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic">BRISCOLA</Label>
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2"  Grid.Column="1" Orientation="Horizontal">
             <Label>Inserire Il Nome Del Giocatore:</Label>
-            <TextBox Margin="0, 3" Name="txtNomeGiocatore" TextChanged="txtNomeGiocatore_TextChanged" Width="290" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
+            <TextBox Margin="0, 3" Name="txtNomeGiocatore" TextChanged="txt_TextChanged" Width="290" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
         </StackPanel>
 
         <Button Margin="35, 15" FontSize="25" Grid.Row="3" Grid.Column="1" Name="btnAvviaPartita" Click="btnAvviaPartita_Click">
@@ -41,7 +41,7 @@
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">
             <Label HorizontalAlignment="Center">Indirizzo IP dell'altro giocatore</Label>
-            <TextBox Name="txtIp" Grid.Row="4" Grid.Column="1" TextChanged="txtIp_TextChanged"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" HorizontalContentAlignment="Center"></TextBox>
+            <TextBox Name="txtIp" Grid.Row="4" Grid.Column="1" TextChanged="txt_TextChanged"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" HorizontalContentAlignment="Center"></TextBox>
         </StackPanel>
     </Grid>
     

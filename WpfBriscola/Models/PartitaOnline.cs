@@ -20,7 +20,7 @@ namespace WpfBriscola.Models
 
         internal async Task CreaPartita()
         {
-            if (!OnlineSettings.PrincipalHost)
+            if (!OnlineSettings!.PrincipalHost)
             {
                 await OnlineSettings.WaitForDeck.Task;
                 Mazzo = new(OnlineSettings.Mazzo);
@@ -43,9 +43,11 @@ namespace WpfBriscola.Models
         }
         public override async void GameLoop()
         {
+
+            //Con CartaSceltaDalPc si intende la carta arrivata con il Socket
             Carta CartaSceltaDalPc = new();
             SemeBriscolaInGioco = PescaBriscola();
-            int turno = OnlineSettings.PrincipalHost ? 0 : 1;
+            int turno = OnlineSettings!.PrincipalHost ? 0 : 1;
             controllerView.RicostruisciWindow();
             if (turno == 0)
             {
@@ -71,13 +73,11 @@ namespace WpfBriscola.Models
                         OnlineSettings.SendCard(CartaScelta);
                         TaskCartaScelta = new();
                         CarteGiocate+=2;
-                        //CartaSceltaDalPc = GiocataPc(CartaScelta, turno);
                         await OnlineSettings.WaitForCard.Task;
                         CartaSceltaDalPc = OnlineSettings.ReceivedCard;
                         controllerView.Aggiorna(CartaSceltaDalPc);
                         break;
                     case 1:
-                        //CartaSceltaDalPc = GiocataPc(null, turno);
                         await OnlineSettings.WaitForCard.Task;
                         CartaSceltaDalPc = OnlineSettings.ReceivedCard;
                         controllerView.Aggiorna(CartaSceltaDalPc);

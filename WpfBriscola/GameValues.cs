@@ -48,5 +48,7 @@ namespace WpfBriscola
         public const string StringaRichiestaDiConnessione = ("richiestaConnessione");
         public static Connection? OnlineSettings;
         public static IPAddress OtherPlayerIp = IPAddress.Any; //di default non so chi è l'altro giocatore
+
+        //public ControllerView controllerView = new();  --> prossimo miglioramento da fare, quando ne avrò voglia
     }
 }
